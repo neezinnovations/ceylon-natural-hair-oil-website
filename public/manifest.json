@@ -1,0 +1,9 @@
+{
+  "short_name": "Ceylon Care",
+  "name": "Ceylon Natural Care",
+  "icons": [],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#07110e",
+  "background_color": "#f8f5ee"
+}

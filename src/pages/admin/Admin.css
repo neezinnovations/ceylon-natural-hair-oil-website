@@ -1,0 +1,4772 @@
+@import url(
+  "https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap"
+);
+
+
+/* =========================================================
+   CEYLON NATURAL CARE
+   ADMIN DASHBOARD — DARK LUXURY
+========================================================= */
+
+:root {
+  --admin-bg: #050706;
+  --admin-bg-soft: #080b09;
+  --admin-bg-deep: #030504;
+
+  --admin-panel: #0b100d;
+  --admin-panel-2: #111613;
+  --admin-panel-3: #151c18;
+
+  --admin-white: #f7f4ed;
+  --admin-soft: #c8cbc6;
+  --admin-muted: #8b928d;
+  --admin-muted-2: #626963;
+
+  --admin-teal: #20a28f;
+  --admin-teal-light: #79cdbf;
+  --admin-teal-dark: #116c61;
+
+  --admin-gold: #d6ad42;
+  --admin-gold-light: #efcf75;
+
+  --admin-success: #67c998;
+  --admin-warning: #e0b655;
+  --admin-danger: #e87979;
+
+  --admin-line: rgba(255, 255, 255, 0.1);
+  --admin-line-soft: rgba(255, 255, 255, 0.055);
+
+  --admin-shadow:
+    0 22px 60px rgba(0, 0, 0, 0.32);
+
+  --admin-radius: 18px;
+  --admin-radius-small: 12px;
+}
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+.admin-page,
+.admin-page *,
+.admin-page *::before,
+.admin-page *::after {
+  box-sizing: border-box;
+}
+
+
+.admin-page a {
+  color: inherit;
+
+  text-decoration: none;
+}
+
+
+.admin-page button,
+.admin-page input,
+.admin-page textarea,
+.admin-page select {
+  font: inherit;
+}
+
+
+/* =========================================================
+   ADMIN PAGE
+========================================================= */
+
+.admin-page {
+  position: fixed;
+
+  z-index: 9999;
+
+  inset: 0;
+
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+
+  overflow: auto;
+
+  color-scheme: dark;
+
+  background:
+    radial-gradient(
+      circle at 87% 4%,
+      rgba(32, 162, 143, 0.07),
+      transparent 27%
+    ),
+    radial-gradient(
+      circle at 8% 96%,
+      rgba(214, 173, 66, 0.035),
+      transparent 24%
+    ),
+    var(--admin-bg);
+
+  color: var(--admin-white);
+
+  font-family:
+    "DM Sans",
+    Arial,
+    sans-serif;
+
+  -webkit-font-smoothing: antialiased;
+
+  text-rendering: optimizeLegibility;
+}
+
+
+/* =========================================================
+   ADMIN SHELL
+========================================================= */
+
+.admin-shell {
+  min-height: 100%;
+
+  display: grid;
+
+  grid-template-columns:
+    270px
+    minmax(0, 1fr);
+}
+
+
+/* =========================================================
+   DESKTOP SIDEBAR
+========================================================= */
+
+.admin-sidebar {
+  position: sticky;
+
+  z-index: 100;
+
+  top: 0;
+
+  height: 100vh;
+  height: 100dvh;
+
+  display: flex;
+
+  flex-direction: column;
+
+  overflow-y: auto;
+
+  padding:
+    26px 20px;
+
+  border-right:
+    1px solid
+    var(--admin-line-soft);
+
+  background:
+    linear-gradient(
+      180deg,
+      #070b08,
+      #030504
+    );
+
+  color:
+    var(--admin-white);
+
+  box-shadow:
+    14px 0 45px
+    rgba(0, 0, 0, 0.12);
+}
+
+
+/* =========================================================
+   LOGO
+========================================================= */
+
+.admin-logo {
+  width: 122px;
+
+  display: block;
+
+  margin-bottom: 26px;
+}
+
+
+.admin-logo img {
+  width: 100%;
+
+  max-height: 64px;
+
+  display: block;
+
+  object-fit: contain;
+
+  filter:
+    drop-shadow(
+      0 7px 18px
+      rgba(214, 173, 66, 0.08)
+    );
+}
+
+
+/* =========================================================
+   ADMIN PROFILE - DESKTOP
+========================================================= */
+
+.admin-user {
+  display: grid;
+
+  grid-template-columns:
+    46px
+    minmax(0, 1fr);
+
+  align-items: center;
+
+  gap: 12px;
+
+  padding:
+    17px 0
+    22px;
+
+  border-top:
+    1px solid
+    var(--admin-line-soft);
+
+  border-bottom:
+    1px solid
+    var(--admin-line-soft);
+}
+
+
+.admin-avatar {
+  width: 46px;
+  height: 46px;
+
+  display: grid;
+
+  place-items: center;
+
+  border:
+    1px solid
+    rgba(214, 173, 66, 0.28);
+
+  border-radius: 50%;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(32, 162, 143, 0.95),
+      rgba(214, 173, 66, 0.95)
+    );
+
+  color: #ffffff;
+
+  font-family:
+    "Playfair Display",
+    Georgia,
+    serif;
+
+  font-size: 18px;
+
+  font-weight: 600;
+
+  box-shadow:
+    0 10px 26px
+    rgba(0, 0, 0, 0.22);
+}
+
+
+.admin-user-info {
+  min-width: 0;
+}
+
+
+.admin-user-info strong {
+  display: block;
+
+  overflow: hidden;
+
+  color:
+    var(--admin-white);
+
+  font-size: 13px;
+
+  font-weight: 600;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+}
+
+
+.admin-user-info span {
+  display: block;
+
+  margin-top: 4px;
+
+  color:
+    var(--admin-muted);
+
+  font-size: 11px;
+}
+
+
+/* =========================================================
+   SIDEBAR NAV LABEL
+========================================================= */
+
+.admin-nav-label {
+  margin:
+    25px 10px
+    8px;
+
+  color:
+    var(--admin-muted-2);
+
+  font-size: 10px;
+
+  font-weight: 700;
+
+  letter-spacing: 0.14em;
+
+  text-transform: uppercase;
+}
+
+
+/* =========================================================
+   SIDEBAR NAVIGATION
+========================================================= */
+
+.admin-nav {
+  display: grid;
+
+  gap: 5px;
+}
+
+
+.admin-nav a {
+  min-height: 47px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  padding:
+    0 13px;
+
+  border:
+    1px solid
+    transparent;
+
+  border-radius: 12px;
+
+  color:
+    var(--admin-muted);
+
+  font-size: 13px;
+
+  font-weight: 500;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+
+.admin-nav a:hover {
+  border-color:
+    rgba(255, 255, 255, 0.055);
+
+  background:
+    rgba(255, 255, 255, 0.025);
+
+  color:
+    var(--admin-white);
+
+  transform:
+    translateX(2px);
+}
+
+
+.admin-nav a.active {
+  border-color:
+    rgba(214, 173, 66, 0.18);
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(214, 173, 66, 0.13),
+      rgba(214, 173, 66, 0.02)
+    );
+
+  color:
+    var(--admin-gold-light);
+
+  box-shadow:
+    inset
+    2px 0 0
+    var(--admin-gold);
+}
+
+
+.admin-nav-icon {
+  width: 20px;
+  height: 20px;
+
+  display: grid;
+
+  place-items: center;
+
+  flex:
+    0 0 auto;
+}
+
+
+.admin-nav-icon svg {
+  width: 18px;
+  height: 18px;
+
+  display: block;
+}
+
+
+/* =========================================================
+   SIDEBAR BOTTOM
+========================================================= */
+
+.admin-sidebar-bottom {
+  display: grid;
+
+  gap: 5px;
+
+  margin-top: auto;
+
+  padding-top: 17px;
+
+  border-top:
+    1px solid
+    var(--admin-line-soft);
+}
+
+
+.admin-sidebar-bottom a,
+.admin-sidebar-bottom button {
+  width: 100%;
+
+  min-height: 46px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 11px;
+
+  padding:
+    0 12px;
+
+  border:
+    1px solid
+    transparent;
+
+  border-radius: 11px;
+
+  background:
+    transparent;
+
+  color:
+    var(--admin-muted);
+
+  font-size: 12px;
+
+  text-align: left;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+
+.admin-sidebar-bottom a:hover,
+.admin-sidebar-bottom button:hover {
+  border-color:
+    var(--admin-line);
+
+  background:
+    rgba(255, 255, 255, 0.025);
+
+  color:
+    var(--admin-white);
+}
+
+
+.admin-sidebar-bottom button:disabled {
+  cursor: not-allowed;
+
+  opacity: 0.5;
+}
+
+
+/* =========================================================
+   ADMIN CONTENT
+========================================================= */
+
+.admin-content {
+  position: relative;
+
+  min-width: 0;
+
+  min-height: 100vh;
+  min-height: 100dvh;
+
+  background:
+    radial-gradient(
+      circle at 88% 4%,
+      rgba(32, 162, 143, 0.05),
+      transparent 27%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(5, 7, 6, 0.98),
+      var(--admin-bg)
+    );
+}
+
+
+/* =========================================================
+   MOBILE ELEMENTS
+========================================================= */
+
+.admin-mobile-header,
+.admin-mobile-nav,
+.admin-mobile-menu,
+.admin-mobile-menu-backdrop {
+  display: none;
+}
+
+
+/* =========================================================
+   ADMIN VIEW
+========================================================= */
+
+.admin-view {
+  width:
+    min(
+      calc(100% - 56px),
+      1250px
+    );
+
+  margin: auto;
+
+  padding:
+    54px 0
+    90px;
+}
+
+
+/* =========================================================
+   PAGE HEADING
+========================================================= */
+
+.admin-page-heading {
+  margin-bottom: 34px;
+}
+
+
+.admin-page-heading > span,
+.admin-panel-header span,
+.admin-receipt-card header span,
+.admin-info-card header span,
+.admin-items-card header span,
+.admin-fulfilment-card header span {
+  color:
+    var(--admin-teal-light);
+
+  font-size: 10px;
+
+  font-weight: 700;
+
+  letter-spacing: 0.14em;
+}
+
+
+.admin-page-heading h1 {
+  margin:
+    8px 0 0;
+
+  color:
+    var(--admin-white);
+
+  font-family:
+    "Playfair Display",
+    Georgia,
+    serif;
+
+  font-size:
+    clamp(
+      42px,
+      5vw,
+      64px
+    );
+
+  font-weight: 400;
+
+  line-height: 1;
+
+  letter-spacing:
+    -0.035em;
+}
+
+
+.admin-page-heading h1 em {
+  color:
+    var(--admin-gold-light);
+
+  font-style: normal;
+}
+
+
+.admin-page-heading p {
+  max-width: 580px;
+
+  color:
+    var(--admin-muted);
+
+  font-size: 14px;
+
+  line-height: 1.75;
+}
+
+
+/* =========================================================
+   DASHBOARD STATS
+========================================================= */
+
+.admin-stat-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      4,
+      minmax(0, 1fr)
+    );
+
+  gap: 14px;
+}
+
+
+.admin-stat-grid article {
+  position: relative;
+
+  min-width: 0;
+
+  overflow: hidden;
+
+  padding: 21px;
+
+  border:
+    1px solid
+    var(--admin-line);
+
+  border-radius:
+    var(--admin-radius);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(17, 22, 19, 0.95),
+      rgba(8, 12, 9, 0.98)
+    );
+
+  box-shadow:
+    0 18px 45px
+    rgba(0, 0, 0, 0.17),
+    inset
+    0 1px 0
+    rgba(255, 255, 255, 0.025);
+
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+
+.admin-stat-grid article::after {
+  position: absolute;
+
+  top: -55px;
+  right: -55px;
+
+  width: 125px;
+  height: 125px;
+
+  border-radius: 50%;
+
+  content: "";
+
+  background:
+    rgba(32, 162, 143, 0.05);
+
+  filter:
+    blur(8px);
+}
+
+
+.admin-stat-grid article:hover {
+  border-color:
+    rgba(32, 162, 143, 0.2);
+
+  transform:
+    translateY(-3px);
+
+  box-shadow:
+    0 25px 55px
+    rgba(0, 0, 0, 0.24);
+}
+
+
+.admin-stat-grid article > span {
+  position: relative;
+
+  z-index: 2;
+
+  color:
+    var(--admin-muted);
+
+  font-size: 10px;
+
+  text-transform: uppercase;
+}
+
+
+.admin-stat-grid strong {
+  position: relative;
+
+  z-index: 2;
+
+  display: block;
+
+  margin-top: 13px;
+
+  color:
+    var(--admin-white);
+
+  font-family:
+    "Playfair Display",
+    Georgia,
+    serif;
+
+  font-size: 38px;
+
+  font-weight: 400;
+}
+
+
+.admin-stat-grid small {
+  position: relative;
+
+  z-index: 2;
+
+  color:
+    var(--admin-muted);
+
+  font-size: 11px;
+}
+
+
+.admin-stat-warning {
+  border-color:
+    rgba(214, 173, 66, 0.32) !important;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(214, 173, 66, 0.08),
+      rgba(8, 12, 9, 0.98)
+    ) !important;
+}
+
+
+/* =========================================================
+   REVENUE
+========================================================= */
+
+.admin-revenue-card {
+  position: relative;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 20px;
+
+  overflow: hidden;
+
+  margin:
+    16px 0
+    25px;
+
+  padding: 23px;
+
+  border:
+    1px solid
+    rgba(32, 162, 143, 0.22);
+
+  border-radius:
+    var(--admin-radius);
+
+  background:
+    radial-gradient(
+      circle at 85% 20%,
+      rgba(214, 173, 66, 0.1),
+      transparent 32%
+    ),
+    linear-gradient(
+      135deg,
+      #103b34,
+      #092019 58%,
+      #07100d
+    );
+
+  color:
+    var(--admin-white);
+
+  box-shadow:
+    0 20px 50px
+    rgba(0, 0, 0, 0.22);
+}
+
+
+.admin-revenue-card span {
+  color:
+    var(--admin-teal-light);
+
+  font-size: 10px;
+}
+
+
+.admin-revenue-card strong {
+  display: block;
+
+  margin-top: 6px;
+
+  color:
+    var(--admin-white);
+
+  font-family:
+    "Playfair Display",
+    Georgia,
+    serif;
+
+  font-size: 30px;
+
+  font-weight: 400;
+}
+
+
+.admin-revenue-card p {
+  max-width: 340px;
+
+  color:
+    rgba(255, 255, 255, 0.58);
+
+  font-size: 12px;
+
+  line-height: 1.6;
+}
+
+
+/* =========================================================
+   COMMON PANELS
+========================================================= */
+
+.admin-panel,
+.admin-receipt-card,
+.admin-info-card,
+.admin-items-card,
+.admin-fulfilment-card {
+  border:
+    1px solid
+    var(--admin-line);
+
+  border-radius:
+    var(--admin-radius);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(17, 22, 19, 0.92),
+      rgba(8, 12, 9, 0.98)
+    );
+
+  color:
+    var(--admin-white);
+
+  box-shadow:
+    0 18px 45px
+    rgba(0, 0, 0, 0.16);
+}
+
+
+.admin-panel {
+  overflow: hidden;
+}
+
+
+.admin-panel-header,
+.admin-items-card > header {
+  display: flex;
+
+  align-items: flex-start;
+
+  justify-content: space-between;
+
+  gap: 20px;
+
+  padding: 21px;
+
+  border-bottom:
+    1px solid
+    var(--admin-line);
+}
+
+
+.admin-panel-header h2,
+.admin-receipt-card h2,
+.admin-info-card h2,
+.admin-items-card h2,
+.admin-fulfilment-card h2 {
+  margin:
+    5px 0 0;
+
+  color:
+    var(--admin-white);
+
+  font-family:
+    "Playfair Display",
+    Georgia,
+    serif;
+
+  font-size: 24px;
+
+  font-weight: 400;
+}
+
+
+.admin-panel-header a,
+.admin-back-link,
+.admin-receipt-card header a {
+  color:
+    var(--admin-teal-light);
+
+  font-size: 11px;
+
+  font-weight: 600;
+}
+
+
+/* =========================================================
+   PAYMENT LIST
+========================================================= */
+
+.admin-payment-list {
+  display: grid;
+}
+
+
+.admin-payment-row {
+  display: grid;
+
+  grid-template-columns:
+    1.4fr
+    1.2fr
+    0.8fr
+    80px;
+
+  align-items: center;
+
+  gap: 15px;
+
+  padding:
+    16px 20px;
+
+  border-bottom:
+    1px solid
+    var(--admin-line-soft);
+
+  color:
+    var(--admin-white);
+
+  transition:
+    background 0.2s ease;
+}
+
+
+.admin-payment-row:hover {
+  background:
+    rgba(255, 255, 255, 0.02);
+}
+
+
+.admin-payment-row:last-child {
+  border-bottom: 0;
+}
+
+
+.admin-payment-row span,
+.admin-order-row span,
+.payment-verification-card span,
+.admin-payment-comparison span,
+.admin-order-item > div:nth-child(n + 3) span {
+  display: block;
+
+  margin-bottom: 4px;
+
+  color:
+    var(--admin-muted);
+
+  font-size: 9px;
+
+  font-weight: 700;
+}
+
+
+.admin-payment-row strong,
+.admin-order-row strong,
+.payment-verification-card strong {
+  color:
+    var(--admin-white);
+
+  font-size: 13px;
+}
+
+
+.admin-payment-review {
+  color:
+    var(--admin-teal-light);
+
+  font-size: 11px;
+
+  font-weight: 600;
+}
+
+
+/* =========================================================
+   ORDERS TOOLBAR
+========================================================= */
+
+.admin-orders-toolbar,
+.payment-review-toolbar {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 16px;
+
+  margin-bottom: 20px;
+}
+
+
+.admin-orders-filters,
+.payment-filter-tabs {
+  display: flex;
+
+  gap: 4px;
+
+  overflow-x: auto;
+
+  padding: 5px;
+
+  border:
+    1px solid
+    var(--admin-line);
+
+  border-radius:
+    12px;
+
+  background:
+    rgba(255, 255, 255, 0.02);
+
+  scrollbar-width: none;
+}
+
+
+.admin-orders-filters::-webkit-scrollbar,
+.payment-filter-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+
+.admin-orders-filters button,
+.payment-filter-tabs button {
+  flex:
+    0 0 auto;
+
+  min-height: 38px;
+
+  padding:
+    0 12px;
+
+  border: 0;
+
+  border-radius:
+    9px;
+
+  background:
+    transparent;
+
+  color:
+    var(--admin-muted);
+
+  font-size: 11px;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+
+.admin-orders-filters button:hover,
+.payment-filter-tabs button:hover {
+  background:
+    rgba(255, 255, 255, 0.03);
+
+  color:
+    var(--admin-white);
+}
+
+
+.admin-orders-filters button.active,
+.payment-filter-tabs button.active {
+  background:
+    linear-gradient(
+      135deg,
+      rgba(32, 162, 143, 0.22),
+      rgba(32, 162, 143, 0.08)
+    );
+
+  color:
+    var(--admin-teal-light);
+}
+
+
+.admin-search {
+  width:
+    min(
+      100%,
+      320px
+    );
+
+  height: 47px;
+
+  padding:
+    0 14px;
+
+  border:
+    1px solid
+    var(--admin-line);
+
+  border-radius:
+    12px;
+
+  outline: none;
+
+  background:
+    rgba(255, 255, 255, 0.025);
+
+  color:
+    var(--admin-white);
+
+  font-size: 13px;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+
+.admin-search::placeholder {
+  color:
+    rgba(255, 255, 255, 0.28);
+}
+
+
+.admin-search:focus {
+  border-color:
+    rgba(32, 162, 143, 0.7);
+
+  background:
+    rgba(32, 162, 143, 0.035);
+
+  box-shadow:
+    0 0 0 3px
+    rgba(32, 162, 143, 0.08);
+}
+
+
+/* =========================================================
+   ORDER LIST
+========================================================= */
+
+.admin-orders-list,
+.payment-verification-list {
+  display: grid;
+
+  gap: 10px;
+}
+
+
+.admin-order-row {
+  display: grid;
+
+  grid-template-columns:
+    1.2fr
+    1.2fr
+    0.7fr
+    1fr
+    90px;
+
+  align-items: center;
+
+  gap: 15px;
+
+  padding:
+    17px 18px;
+
+  border:
+    1px solid
+    var(--admin-line);
+
+  border-radius:
+    14px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(17, 22, 19, 0.9),
+      rgba(8, 12, 9, 0.96)
+    );
+
+  color:
+    var(--admin-white);
+
+  transition:
+    border-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+
+.admin-order-row:hover {
+  border-color:
+    rgba(32, 162, 143, 0.2);
+
+  background:
+    rgba(255, 255, 255, 0.02);
+
+  box-shadow:
+    0 14px 35px
+    rgba(0, 0, 0, 0.2);
+
+  transform:
+    translateY(-2px);
+}
+
+
+.admin-order-row small {
+  display: block;
+
+  margin-top: 4px;
+
+  color:
+    var(--admin-muted);
+
+  font-size: 10px;
+}
+
+
+.admin-order-row > a,
+.payment-verification-card > a {
+  color:
+    var(--admin-teal-light);
+
+  font-size: 11px;
+
+  font-weight: 700;
+}
+
+
+/* =========================================================
+   PAYMENT VERIFICATION CARDS
+========================================================= */
+
+.payment-verification-card {
+  display: grid;
+
+  grid-template-columns:
+    1.2fr
+    1.2fr
+    0.8fr
+    0.8fr
+    0.8fr
+    80px;
+
+  align-items: center;
+
+  gap: 15px;
+
+  padding:
+    17px 18px;
+
+  border:
+    1px solid
+    var(--admin-line);
+
+  border-radius:
+    14px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(17, 22, 19, 0.92),
+      rgba(8, 12, 9, 0.97)
+    );
+
+  color:
+    var(--admin-white);
+
+  box-shadow:
+    0 14px 35px
+    rgba(0, 0, 0, 0.14);
+}
+
+
+/* =========================================================
+   LOADING / EMPTY
+========================================================= */
+
+.admin-loading,
+.admin-empty {
+  padding:
+    50px 20px;
+
+  color:
+    var(--admin-muted);
+
+  font-size: 13px;
+
+  text-align: center;
+}
+
+
+.admin-empty-card {
+  border:
+    1px solid
+    var(--admin-line);
+
+  border-radius:
+    var(--admin-radius);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(17, 22, 19, 0.92),
+      rgba(8, 12, 9, 0.98)
+    );
+
+  color:
+    var(--admin-white);
+}
+
+
+/* =========================================================
+   ORDER DETAILS HEADING
+========================================================= */
+
+.admin-order-heading {
+  display: flex;
+
+  align-items: flex-end;
+
+  justify-content: space-between;
+
+  gap: 20px;
+
+  margin-bottom: 25px;
+}
+
+
+.admin-order-heading >
+div:first-child >
+span {
+  display: block;
+
+  margin:
+    18px 0
+    6px;
+
+  color:
+    var(--admin-teal-light);
+
+  font-size: 10px;
+
+  font-weight: 700;
+}
+
+
+.admin-order-heading h1 {
+  margin: 0;
+
+  color:
+    var(--admin-white);
+
+  font-family:
+    "Playfair Display",
+    Georgia,
+    serif;
+
+  font-size:
+    clamp(
+      36px,
+      5vw,
+      54px
+    );
+
+  font-weight: 400;
+}
+
+
+/* =========================================================
+   PAYMENT STATUS
+========================================================= */
+
+.admin-payment-large-status {
+  padding:
+    8px 12px;
+
+  border:
+    1px solid
+    var(--admin-line);
+
+  border-radius: 999px;
+
+  font-size: 10px;
+
+  font-weight: 700;
+}
+
+
+.admin-payment-large-status.pending {
+  border-color:
+    rgba(224, 182, 85, 0.25);
+
+  background:
+    rgba(224, 182, 85, 0.08);
+
+  color:
+    var(--admin-gold-light);
+}
+
+
+.admin-payment-large-status.verified {
+  border-color:
+    rgba(103, 201, 152, 0.25);
+
+  background:
+    rgba(103, 201, 152, 0.08);
+
+  color:
+    #83dab0;
+}
+
+
+.admin-payment-large-status.rejected {
+  border-color:
+    rgba(232, 121, 121, 0.25);
+
+  background:
+    rgba(232, 121, 121, 0.08);
+
+  color:
+    #f19a9a;
+}
+
+
+/* =========================================================
+   ALERTS
+========================================================= */
+
+.admin-alert {
+  margin:
+    15px 0;
+
+  padding:
+    12px 14px;
+
+  border-radius:
+    11px;
+
+  font-size: 12px;
+
+  line-height: 1.6;
+}
+
+
+.admin-alert-success {
+  border:
+    1px solid
+    rgba(103, 201, 152, 0.24);
+
+  background:
+    rgba(103, 201, 152, 0.07);
+
+  color:
+    #88ddb4;
+}
+
+
+.admin-alert-error {
+  border:
+    1px solid
+    rgba(232, 121, 121, 0.24);
+
+  background:
+    rgba(232, 121, 121, 0.07);
+
+  color:
+    #f09a9a;
+}
+
+
+/* =========================================================
+   ORDER DETAILS LAYOUT
+========================================================= */
+
+.admin-order-layout {
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1.35fr)
+    minmax(290px, 0.65fr);
+
+  align-items: start;
+
+  gap: 18px;
+}
+
+
+/* =========================================================
+   RECEIPT / INFO / FULFILMENT CARDS
+========================================================= */
+
+.admin-receipt-card,
+.admin-info-card,
+.admin-fulfilment-card {
+  padding: 21px;
+}
+
+
+.admin-receipt-card > header,
+.admin-info-card > header,
+.admin-fulfilment-card > header {
+  display: flex;
+
+  justify-content: space-between;
+
+  gap: 15px;
+
+  padding-bottom: 16px;
+
+  border-bottom:
+    1px solid
+    var(--admin-line);
+}
+
+
+/* =========================================================
+   RECEIPT IMAGE
+========================================================= */
+
+.admin-receipt-image {
+  height:
+    min(
+      570px,
+      65vh
+    );
+
+  display: grid;
+
+  place-items: center;
+
+  margin:
+    18px 0;
+
+  overflow: hidden;
+
+  border:
+    1px solid
+    var(--admin-line);
+
+  border-radius:
+    15px;
+
+  background:
+    radial-gradient(
+      circle at 50% 35%,
+      #161c18,
+      #080b09 75%
+    );
+
+  box-shadow:
+    inset
+    0 1px 0
+    rgba(255, 255, 255, 0.025);
+}
+
+
+.admin-receipt-image img {
+  width: 100%;
+  height: 100%;
+
+  padding: 10px;
+
+  object-fit: contain;
+
+  border-radius:
+    14px;
+}
+
+
+.admin-no-receipt {
+  min-height: 250px;
+
+  display: grid;
+
+  place-items: center;
+
+  color:
+    var(--admin-muted);
+}
+
+
+/* =========================================================
+   PAYMENT COMPARISON
+========================================================= */
+
+.admin-payment-comparison {
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      3,
+      1fr
+    );
+
+  overflow: hidden;
+
+  border:
+    1px solid
+    var(--admin-line);
+
+  border-radius:
+    13px;
+
+  background:
+    rgba(255, 255, 255, 0.015);
+}
+
+
+.admin-payment-comparison > div {
+  min-width: 0;
+
+  padding: 13px;
+}
+
+
+.admin-payment-comparison >
+div + div {
+  border-left:
+    1px solid
+    var(--admin-line);
+}
+
+
+/* =========================================================
+   PAYMENT ACTIONS
+========================================================= */
+
+.admin-payment-actions {
+  display: grid;
+
+  grid-template-columns:
+    1fr
+    1fr;
+
+  gap: 9px;
+
+  margin-top: 15px;
+}
+
+
+.admin-payment-actions button,
+.admin-status-actions button {
+  min-height: 49px;
+
+  border-radius:
+    12px;
+
+  font-size: 12px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    filter 0.2s ease,
+    border-color 0.2s ease,
+    background 0.2s ease;
+}
+
+
+.admin-payment-actions button:hover,
+.admin-status-actions button:hover {
+  transform:
+    translateY(-1px);
+
+  filter:
+    brightness(1.05);
+}
+
+
+.admin-reject-button {
+  border:
+    1px solid
+    rgba(232, 121, 121, 0.42);
+
+  background:
+    rgba(232, 121, 121, 0.06);
+
+  color:
+    #f09a9a;
+}
+
+
+.admin-approve-button {
+  border:
+    1px solid
+    rgba(32, 162, 143, 0.4);
+
+  background:
+    linear-gradient(
+      135deg,
+      #25b09c,
+      #168778 60%,
+      #116c61
+    );
+
+  color:
+    #ffffff;
+
+  box-shadow:
+    0 12px 28px
+    rgba(22, 135, 120, 0.2);
+}
+
+
+/* =========================================================
+   ORDER INFORMATION
+========================================================= */
+
+.admin-order-information {
+  display: grid;
+
+  gap: 16px;
+}
+
+
+.admin-info-card dl {
+  margin:
+    12px 0 0;
+}
+
+
+.admin-info-card dl > div {
+  display: flex;
+
+  justify-content: space-between;
+
+  gap: 12px;
+
+  padding:
+    11px 0;
+
+  border-bottom:
+    1px solid
+    var(--admin-line-soft);
+}
+
+
+.admin-info-card dt {
+  color:
+    var(--admin-muted);
+
+  font-size: 11px;
+}
+
+
+.admin-info-card dd {
+  max-width: 180px;
+
+  margin: 0;
+
+  overflow-wrap: anywhere;
+
+  color:
+    var(--admin-soft);
+
+  font-size: 12px;
+
+  text-align: right;
+}
+
+
+/* =========================================================
+   ADDRESS
+========================================================= */
+
+.admin-address {
+  padding-top: 14px;
+}
+
+
+.admin-address strong {
+  color:
+    var(--admin-white);
+
+  font-family:
+    "Playfair Display",
+    Georgia,
+    serif;
+
+  font-size: 19px;
+}
+
+
+.admin-address p {
+  color:
+    var(--admin-muted);
+
+  font-size: 13px;
+
+  line-height: 1.65;
+}
+
+
+/* =========================================================
+   ITEMS
+========================================================= */
+
+.admin-items-card {
+  margin-top: 16px;
+
+  overflow: hidden;
+}
+
+
+.admin-order-item {
+  display: grid;
+
+  grid-template-columns:
+    70px
+    1.3fr
+    0.5fr
+    0.8fr
+    0.8fr;
+
+  align-items: center;
+
+  gap: 15px;
+
+  padding:
+    14px 20px;
+
+  border-bottom:
+    1px solid
+    var(--admin-line-soft);
+
+  color:
+    var(--admin-white);
+}
+
+
+.admin-order-item:last-child {
+  border-bottom: 0;
+}
+
+
+.admin-order-item-image {
+  width: 70px;
+  height: 78px;
+
+  overflow: hidden;
+
+  border:
+    1px solid
+    var(--admin-line);
+
+  border-radius:
+    12px;
+
+  background:
+    radial-gradient(
+      circle at center,
+      #1a211c,
+      #090c0a
+    );
+}
+
+
+.admin-order-item-image img {
+  width: 100%;
+  height: 100%;
+
+  padding: 6px;
+
+  object-fit: contain;
+}
+
+
+.admin-order-item >
+div:nth-child(2) span {
+  display: block;
+
+  margin-top: 4px;
+
+  color:
+    var(--admin-muted);
+
+  font-size: 10px;
+}
+
+
+/* =========================================================
+   FULFILMENT
+========================================================= */
+
+.admin-fulfilment-card {
+  margin-top: 16px;
+}
+
+
+.admin-fulfilment-progress {
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      5,
+      1fr
+    );
+
+  gap: 8px;
+
+  margin:
+    25px 0;
+}
+
+
+.admin-fulfilment-progress > div {
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  gap: 7px;
+
+  color:
+    var(--admin-muted);
+
+  text-align: center;
+}
+
+
+.admin-fulfilment-progress >
+div > span {
+  width: 37px;
+  height: 37px;
+
+  display: grid;
+
+  place-items: center;
+
+  border:
+    1px solid
+    var(--admin-line);
+
+  border-radius: 50%;
+
+  background:
+    rgba(255, 255, 255, 0.018);
+}
+
+
+.admin-fulfilment-progress >
+div > strong {
+  font-size: 10px;
+}
+
+
+.admin-fulfilment-progress >
+div.completed {
+  color:
+    var(--admin-teal-light);
+}
+
+
+.admin-fulfilment-progress >
+div.completed >
+span {
+  border-color:
+    var(--admin-teal);
+
+  background:
+    linear-gradient(
+      135deg,
+      #25b09c,
+      #168778
+    );
+
+  color:
+    #ffffff;
+
+  box-shadow:
+    0 8px 22px
+    rgba(22, 135, 120, 0.2);
+}
+
+
+/* =========================================================
+   STATUS NOTE
+========================================================= */
+
+.admin-status-note {
+  display: grid;
+
+  gap: 7px;
+}
+
+
+.admin-status-note span {
+  color:
+    var(--admin-muted);
+
+  font-size: 10px;
+
+  font-weight: 700;
+}
+
+
+.admin-status-note input,
+.admin-reject-modal textarea {
+  width: 100%;
+
+  border:
+    1px solid
+    var(--admin-line);
+
+  border-radius:
+    12px;
+
+  outline: none;
+
+  background:
+    rgba(255, 255, 255, 0.025);
+
+  color:
+    var(--admin-white);
+
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+
+.admin-status-note input {
+  height: 47px;
+
+  padding:
+    0 13px;
+}
+
+
+.admin-status-note input::placeholder,
+.admin-reject-modal textarea::placeholder {
+  color:
+    rgba(255, 255, 255, 0.28);
+}
+
+
+.admin-status-note input:focus,
+.admin-reject-modal textarea:focus {
+  border-color:
+    rgba(32, 162, 143, 0.7);
+
+  background:
+    rgba(32, 162, 143, 0.035);
+
+  box-shadow:
+    0 0 0 3px
+    rgba(32, 162, 143, 0.08);
+}
+
+
+/* =========================================================
+   STATUS ACTIONS
+========================================================= */
+
+.admin-status-actions {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 8px;
+
+  margin-top: 14px;
+}
+
+
+.admin-status-actions button {
+  padding:
+    0 16px;
+
+  border:
+    1px solid
+    rgba(32, 162, 143, 0.35);
+
+  background:
+    linear-gradient(
+      135deg,
+      #25b09c,
+      #168778 60%,
+      #116c61
+    );
+
+  color:
+    #ffffff;
+}
+
+
+.admin-status-actions
+.admin-cancel-order {
+  border-color:
+    rgba(232, 121, 121, 0.4);
+
+  background:
+    rgba(232, 121, 121, 0.06);
+
+  color:
+    #f09a9a;
+}
+
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+.admin-modal-overlay {
+  position: fixed;
+
+  z-index: 20000;
+
+  inset: 0;
+
+  background:
+    rgba(0, 0, 0, 0.72);
+
+  -webkit-backdrop-filter:
+    blur(7px);
+
+  backdrop-filter:
+    blur(7px);
+}
+
+
+.admin-reject-modal {
+  position: fixed;
+
+  z-index: 20001;
+
+  top: 50%;
+  left: 50%;
+
+  width:
+    min(
+      calc(100% - 30px),
+      500px
+    );
+
+  padding: 23px;
+
+  border:
+    1px solid
+    var(--admin-line);
+
+  border-radius:
+    19px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #111613,
+      #080c09
+    );
+
+  color:
+    var(--admin-white);
+
+  box-shadow:
+    0 35px 100px
+    rgba(0, 0, 0, 0.58);
+
+  transform:
+    translate(-50%, -50%);
+}
+
+
+.admin-reject-modal > header {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 15px;
+}
+
+
+.admin-reject-modal h2 {
+  color:
+    var(--admin-white);
+
+  font-family:
+    "Playfair Display",
+    Georgia,
+    serif;
+
+  font-size: 28px;
+
+  font-weight: 400;
+}
+
+
+.admin-reject-modal header button {
+  width: 38px;
+  height: 38px;
+
+  border:
+    1px solid
+    var(--admin-line);
+
+  border-radius: 50%;
+
+  background:
+    rgba(255, 255, 255, 0.025);
+
+  color:
+    var(--admin-soft);
+
+  cursor: pointer;
+}
+
+
+.admin-reject-modal textarea {
+  min-height: 110px;
+
+  padding: 12px;
+
+  resize: vertical;
+}
+
+
+.admin-modal-actions {
+  display: grid;
+
+  grid-template-columns:
+    1fr
+    1fr;
+
+  gap: 9px;
+
+  margin-top: 15px;
+}
+
+
+.admin-modal-actions button {
+  min-height: 47px;
+
+  border:
+    1px solid
+    var(--admin-line);
+
+  border-radius:
+    12px;
+
+  background:
+    rgba(255, 255, 255, 0.025);
+
+  color:
+    var(--admin-soft);
+
+  cursor: pointer;
+}
+
+
+.admin-modal-actions button:last-child {
+  border-color:
+    rgba(232, 121, 121, 0.38);
+
+  background:
+    linear-gradient(
+      135deg,
+      #b95353,
+      #8f3d3d
+    );
+
+  color:
+    #ffffff;
+}
+
+
+/* =========================================================
+   AUTOFILL DARK FIX
+========================================================= */
+
+.admin-page input:-webkit-autofill,
+.admin-page input:-webkit-autofill:hover,
+.admin-page input:-webkit-autofill:focus {
+  -webkit-text-fill-color:
+    var(--admin-white);
+
+  box-shadow:
+    0 0 0 1000px
+    #0d120f
+    inset;
+
+  transition:
+    background-color
+    9999s ease-in-out
+    0s;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1000px) {
+
+  .admin-shell {
+    grid-template-columns:
+      220px
+      minmax(0, 1fr);
+  }
+
+
+  .admin-sidebar {
+    padding:
+      22px 15px;
+  }
+
+
+  .admin-stat-grid {
+    grid-template-columns:
+      1fr
+      1fr;
+  }
+
+
+  .admin-order-layout {
+    grid-template-columns:
+      1fr;
+  }
+
+
+  .admin-order-information {
+    grid-template-columns:
+      1fr
+      1fr;
+  }
+
+
+  .admin-order-row,
+  .payment-verification-card {
+    grid-template-columns:
+      1fr
+      1fr
+      1fr;
+  }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 760px) {
+
+  /* =======================================================
+     MAIN LAYOUT
+  ======================================================== */
+
+  .admin-shell {
+    display: block;
+  }
+
+
+  .admin-sidebar {
+    display: none;
+  }
+
+
+  /* =======================================================
+     MOBILE HEADER
+  ======================================================== */
+
+  .admin-mobile-header {
+    position: sticky;
+
+    z-index: 1300;
+
+    top: 0;
+
+    width: 100%;
+
+    min-height: 68px;
+
+    display: grid;
+
+    grid-template-columns:
+      68px
+      minmax(0, 1fr)
+      auto;
+
+    align-items: center;
+
+    gap: 10px;
+
+    padding:
+      7px 14px;
+
+    border-bottom:
+      1px solid
+      var(--admin-line);
+
+    background:
+      rgba(5, 7, 6, 0.95);
+
+    box-shadow:
+      0 8px 30px
+      rgba(0, 0, 0, 0.2);
+
+    -webkit-backdrop-filter:
+      blur(20px)
+      saturate(125%);
+
+    backdrop-filter:
+      blur(20px)
+      saturate(125%);
+  }
+
+
+  /* MOBILE LOGO */
+
+  .admin-mobile-logo {
+    width: 65px;
+
+    display: block;
+  }
+
+
+  .admin-mobile-logo img {
+    width: 100%;
+
+    height: 44px;
+
+    display: block;
+
+    object-fit: contain;
+  }
+
+
+  /* MOBILE ADMIN TITLE */
+
+  .admin-mobile-title {
+    min-width: 0;
+  }
+
+
+  .admin-mobile-title > span {
+    display: block;
+
+    margin-bottom: 2px;
+
+    color:
+      var(--admin-gold);
+
+    font-size: 9px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.12em;
+  }
+
+
+  .admin-mobile-title > strong {
+    display: block;
+
+    overflow: hidden;
+
+    color:
+      var(--admin-white);
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    text-overflow:
+      ellipsis;
+
+    white-space: nowrap;
+  }
+
+
+  /* =======================================================
+     MOBILE PROFILE BUTTON
+  ======================================================== */
+
+  .admin-mobile-profile {
+    min-width: 52px;
+    height: 44px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: flex-end;
+
+    gap: 3px;
+
+    padding: 0;
+
+    border: 0;
+
+    background:
+      transparent;
+
+    color:
+      var(--admin-soft);
+
+    cursor: pointer;
+  }
+
+
+  .admin-mobile-avatar {
+    width: 39px;
+    height: 39px;
+
+    display: grid;
+
+    place-items: center;
+
+    border:
+      1px solid
+      rgba(214, 173, 66, 0.25);
+
+    border-radius: 50%;
+
+    background:
+      linear-gradient(
+        135deg,
+        #16877b,
+        #d6ad42
+      );
+
+    box-shadow:
+      0 5px 15px
+      rgba(0, 0, 0, 0.22);
+
+    color:
+      #ffffff;
+
+    font-family:
+      "Playfair Display",
+      Georgia,
+      serif;
+
+    font-size: 15px;
+
+    font-weight: 600;
+  }
+
+
+  .admin-mobile-chevron {
+    width: 14px;
+    height: 14px;
+
+    display: grid;
+
+    place-items: center;
+
+    transition:
+      transform 0.2s ease;
+  }
+
+
+  .admin-mobile-chevron svg {
+    width: 13px;
+    height: 13px;
+  }
+
+
+  .admin-mobile-profile.active
+  .admin-mobile-chevron {
+    transform:
+      rotate(180deg);
+  }
+
+
+  /* =======================================================
+     MOBILE ADMIN NAVIGATION
+  ======================================================== */
+
+  .admin-mobile-nav {
+    position: sticky;
+
+    z-index: 1200;
+
+    top: 68px;
+
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+      repeat(
+        3,
+        minmax(0, 1fr)
+      );
+
+    border-bottom:
+      1px solid
+      var(--admin-line);
+
+    background:
+      rgba(7, 10, 8, 0.97);
+
+    box-shadow:
+      0 7px 24px
+      rgba(0, 0, 0, 0.14);
+
+    -webkit-backdrop-filter:
+      blur(18px);
+
+    backdrop-filter:
+      blur(18px);
+  }
+
+
+  .admin-mobile-nav a {
+    position: relative;
+
+    min-width: 0;
+
+    min-height: 61px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 4px;
+
+    padding:
+      6px 2px;
+
+    color:
+      var(--admin-muted);
+
+    font-size: 10px;
+
+    font-weight: 600;
+
+    text-align: center;
+
+    transition:
+      background 0.2s ease,
+      color 0.2s ease;
+  }
+
+
+  .admin-mobile-nav a:hover {
+    background:
+      rgba(32, 162, 143, 0.035);
+  }
+
+
+  .admin-mobile-nav a.active {
+    color:
+      var(--admin-teal-light);
+  }
+
+
+  .admin-mobile-nav a::after {
+    position: absolute;
+
+    right: 31%;
+    bottom: 0;
+    left: 31%;
+
+    height: 2px;
+
+    content: "";
+
+    border-radius:
+      999px 999px 0 0;
+
+    background:
+      var(--admin-teal);
+
+    opacity: 0;
+
+    transform:
+      scaleX(0);
+
+    transition:
+      opacity 0.2s ease,
+      transform 0.2s ease;
+  }
+
+
+  .admin-mobile-nav a.active::after {
+    opacity: 1;
+
+    transform:
+      scaleX(1);
+  }
+
+
+  .admin-mobile-nav-icon {
+    width: 21px;
+    height: 21px;
+
+    display: grid;
+
+    place-items: center;
+  }
+
+
+  .admin-mobile-nav-icon svg {
+    width: 19px;
+    height: 19px;
+
+    display: block;
+  }
+
+
+  /* =======================================================
+     MOBILE MENU BACKDROP
+  ======================================================== */
+
+  .admin-mobile-menu-backdrop {
+    position: fixed;
+
+    z-index: 1340;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    padding: 0;
+
+    border: 0;
+
+    background:
+      rgba(0, 0, 0, 0.62);
+
+    -webkit-backdrop-filter:
+      blur(4px);
+
+    backdrop-filter:
+      blur(4px);
+  }
+
+
+  /* =======================================================
+     MOBILE ADMIN DROPDOWN
+  ======================================================== */
+
+  .admin-mobile-menu {
+    position: fixed;
+
+    z-index: 1400;
+
+    top: 76px;
+    right: 12px;
+
+    width:
+      min(
+        305px,
+        calc(100vw - 24px)
+      );
+
+    display: block;
+
+    overflow: hidden;
+
+    border:
+      1px solid
+      var(--admin-line);
+
+    border-radius:
+      18px;
+
+    background:
+      linear-gradient(
+        145deg,
+        rgba(17, 22, 19, 0.99),
+        rgba(7, 10, 8, 0.99)
+      );
+
+    color:
+      var(--admin-white);
+
+    box-shadow:
+      0 30px 80px
+      rgba(0, 0, 0, 0.52),
+      inset
+      0 1px 0
+      rgba(255, 255, 255, 0.035);
+
+    animation:
+      adminMobileMenuOpen
+      0.18s ease;
+
+    -webkit-backdrop-filter:
+      blur(22px);
+
+    backdrop-filter:
+      blur(22px);
+  }
+
+
+  @keyframes adminMobileMenuOpen {
+
+    from {
+      opacity: 0;
+
+      transform:
+        translateY(-6px)
+        scale(0.98);
+    }
+
+    to {
+      opacity: 1;
+
+      transform:
+        translateY(0)
+        scale(1);
+    }
+
+  }
+
+
+  /* =======================================================
+     MOBILE MENU USER
+  ======================================================== */
+
+  .admin-mobile-menu-user {
+    display: grid;
+
+    grid-template-columns:
+      46px
+      minmax(0, 1fr);
+
+    align-items: center;
+
+    gap: 11px;
+
+    padding: 17px;
+
+    background:
+      rgba(255, 255, 255, 0.025);
+  }
+
+
+  .admin-mobile-menu-avatar {
+    width: 46px;
+    height: 46px;
+
+    display: grid;
+
+    place-items: center;
+
+    border-radius: 50%;
+
+    background:
+      linear-gradient(
+        135deg,
+        #16877b,
+        #d6ad42
+      );
+
+    color:
+      #ffffff;
+
+    font-family:
+      "Playfair Display",
+      Georgia,
+      serif;
+
+    font-size: 18px;
+
+    font-weight: 600;
+  }
+
+
+  .admin-mobile-menu-user >
+  div:last-child {
+    min-width: 0;
+  }
+
+
+  .admin-mobile-menu-user strong {
+    display: block;
+
+    overflow: hidden;
+
+    color:
+      var(--admin-white);
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    text-overflow:
+      ellipsis;
+
+    white-space: nowrap;
+  }
+
+
+  .admin-mobile-menu-user span {
+    display: block;
+
+    overflow: hidden;
+
+    margin-top: 3px;
+
+    color:
+      var(--admin-muted);
+
+    font-size: 10px;
+
+    text-overflow:
+      ellipsis;
+
+    white-space: nowrap;
+  }
+
+
+  /* =======================================================
+     MOBILE ADMIN ROLE
+  ======================================================== */
+
+  .admin-mobile-menu-role {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 15px;
+
+    padding:
+      11px 17px;
+
+    border-top:
+      1px solid
+      var(--admin-line-soft);
+
+    border-bottom:
+      1px solid
+      var(--admin-line-soft);
+
+    background:
+      rgba(255, 255, 255, 0.012);
+  }
+
+
+  .admin-mobile-menu-role span {
+    color:
+      var(--admin-muted);
+
+    font-size: 9px;
+
+    font-weight: 800;
+
+    letter-spacing:
+      0.1em;
+  }
+
+
+  .admin-mobile-menu-role strong {
+    padding:
+      5px 9px;
+
+    border:
+      1px solid
+      rgba(214, 173, 66, 0.18);
+
+    border-radius: 999px;
+
+    background:
+      rgba(214, 173, 66, 0.08);
+
+    color:
+      var(--admin-gold-light);
+
+    font-size: 9px;
+
+    font-weight: 800;
+
+    letter-spacing:
+      0.04em;
+
+    text-transform: uppercase;
+  }
+
+
+  /* =======================================================
+     MOBILE DROPDOWN LINKS
+  ======================================================== */
+
+  .admin-mobile-menu-links {
+    display: grid;
+
+    padding: 7px;
+  }
+
+
+  .admin-mobile-menu-links > a {
+    min-height: 58px;
+
+    display: grid;
+
+    grid-template-columns:
+      38px
+      minmax(0, 1fr);
+
+    align-items: center;
+
+    gap: 10px;
+
+    padding:
+      7px 10px;
+
+    border-radius:
+      11px;
+
+    color:
+      var(--admin-soft);
+
+    transition:
+      background 0.2s ease,
+      color 0.2s ease;
+  }
+
+
+  .admin-mobile-menu-links > a:hover {
+    background:
+      rgba(255, 255, 255, 0.03);
+
+    color:
+      var(--admin-white);
+  }
+
+
+  .admin-mobile-menu-icon {
+    width: 38px;
+    height: 38px;
+
+    display: grid;
+
+    place-items: center;
+
+    border:
+      1px solid
+      rgba(32, 162, 143, 0.12);
+
+    border-radius:
+      10px;
+
+    background:
+      rgba(32, 162, 143, 0.07);
+
+    color:
+      var(--admin-teal-light);
+  }
+
+
+  .admin-mobile-menu-icon svg {
+    width: 18px;
+    height: 18px;
+
+    display: block;
+  }
+
+
+  .admin-mobile-menu-text {
+    min-width: 0;
+  }
+
+
+  .admin-mobile-menu-text strong {
+    display: block;
+
+    color:
+      var(--admin-white);
+
+    font-size: 12px;
+
+    font-weight: 700;
+  }
+
+
+  .admin-mobile-menu-text small {
+    display: block;
+
+    margin-top: 2px;
+
+    color:
+      var(--admin-muted);
+
+    font-size: 10px;
+
+    font-weight: 400;
+  }
+
+
+  /* =======================================================
+     MOBILE SIGN OUT
+  ======================================================== */
+
+  .admin-mobile-menu-footer {
+    padding: 8px;
+
+    border-top:
+      1px solid
+      var(--admin-line-soft);
+
+    background:
+      rgba(255, 255, 255, 0.012);
+  }
+
+
+  .admin-mobile-menu-logout {
+    width: 100%;
+
+    min-height: 50px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 11px;
+
+    padding:
+      0 11px;
+
+    border: 0;
+
+    border-radius:
+      11px;
+
+    background:
+      transparent;
+
+    color:
+      #ee9595;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    text-align: left;
+
+    cursor: pointer;
+
+    transition:
+      background 0.2s ease;
+  }
+
+
+  .admin-mobile-menu-logout
+  .admin-mobile-menu-icon {
+    border-color:
+      rgba(232, 121, 121, 0.12);
+
+    background:
+      rgba(232, 121, 121, 0.07);
+
+    color:
+      #ee9595;
+  }
+
+
+  .admin-mobile-menu-logout:hover {
+    background:
+      rgba(232, 121, 121, 0.055);
+  }
+
+
+  .admin-mobile-menu-logout:disabled {
+    cursor: not-allowed;
+
+    opacity: 0.5;
+  }
+
+
+  /* =======================================================
+     MOBILE CONTENT
+  ======================================================== */
+
+  .admin-view {
+    width:
+      calc(100% - 26px);
+
+    padding:
+      34px 0
+      70px;
+  }
+
+
+  .admin-page-heading {
+    margin-bottom: 26px;
+  }
+
+
+  .admin-page-heading h1 {
+    font-size:
+      clamp(
+        38px,
+        11vw,
+        50px
+      );
+  }
+
+
+  .admin-page-heading p {
+    font-size: 13px;
+  }
+
+
+  /* =======================================================
+     MOBILE DASHBOARD
+  ======================================================== */
+
+  .admin-stat-grid {
+    grid-template-columns:
+      1fr
+      1fr;
+
+    gap: 10px;
+  }
+
+
+  .admin-stat-grid article {
+    padding: 18px;
+  }
+
+
+  .admin-stat-grid strong {
+    font-size: 31px;
+  }
+
+
+  /* =======================================================
+     MOBILE REVENUE
+  ======================================================== */
+
+  .admin-revenue-card {
+    padding: 19px;
+  }
+
+
+  /* =======================================================
+     MOBILE TOOLBAR
+  ======================================================== */
+
+  .admin-orders-toolbar,
+  .payment-review-toolbar {
+    align-items: stretch;
+
+    flex-direction: column;
+  }
+
+
+  .admin-search {
+    width: 100%;
+
+    height: 50px;
+
+    font-size: 16px;
+  }
+
+
+  /* =======================================================
+     MOBILE ORDERS
+  ======================================================== */
+
+  .admin-order-row,
+  .payment-verification-card {
+    grid-template-columns:
+      1fr
+      1fr;
+
+    gap:
+      16px 12px;
+  }
+
+
+  /* =======================================================
+     ORDER HEADING
+  ======================================================== */
+
+  .admin-order-heading {
+    align-items: flex-start;
+
+    flex-direction: column;
+  }
+
+
+  /* =======================================================
+     PAYMENT COMPARISON
+  ======================================================== */
+
+  .admin-payment-comparison {
+    grid-template-columns:
+      1fr;
+  }
+
+
+  .admin-payment-comparison >
+  div + div {
+    border-top:
+      1px solid
+      var(--admin-line);
+
+    border-left: 0;
+  }
+
+
+  .admin-payment-actions {
+    grid-template-columns:
+      1fr;
+  }
+
+
+  /* =======================================================
+     ORDER DETAILS
+  ======================================================== */
+
+  .admin-order-information {
+    grid-template-columns:
+      1fr;
+  }
+
+
+  .admin-order-item {
+    grid-template-columns:
+      60px
+      minmax(0, 1fr);
+  }
+
+
+  .admin-order-item-image {
+    width: 60px;
+    height: 68px;
+  }
+
+
+  .admin-order-item >
+  div:nth-child(n + 3) {
+    grid-column: 2;
+  }
+
+
+  /* =======================================================
+     FULFILMENT
+  ======================================================== */
+
+  .admin-fulfilment-progress {
+    grid-template-columns:
+      repeat(
+        3,
+        1fr
+      );
+  }
+
+
+  .admin-status-actions {
+    display: grid;
+
+    grid-template-columns:
+      1fr;
+  }
+
+
+  .admin-status-actions button {
+    width: 100%;
+  }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 430px) {
+
+  .admin-mobile-header {
+    grid-template-columns:
+      58px
+      minmax(0, 1fr)
+      auto;
+
+    padding:
+      7px 10px;
+  }
+
+
+  .admin-mobile-logo {
+    width: 56px;
+  }
+
+
+  .admin-mobile-logo img {
+    height: 40px;
+  }
+
+
+  .admin-mobile-profile {
+    min-width: 48px;
+  }
+
+
+  .admin-mobile-avatar {
+    width: 35px;
+    height: 35px;
+
+    font-size: 14px;
+  }
+
+
+  .admin-mobile-nav a {
+    min-height: 57px;
+
+    font-size: 9px;
+  }
+
+
+  .admin-mobile-nav-icon svg {
+    width: 18px;
+    height: 18px;
+  }
+
+
+  .admin-mobile-menu {
+    top: 72px;
+    right: 10px;
+
+    width:
+      calc(
+        100vw - 20px
+      );
+  }
+
+
+  .admin-view {
+    width:
+      calc(
+        100% - 22px
+      );
+
+    padding:
+      27px 0
+      65px;
+  }
+
+
+  .admin-stat-grid {
+    grid-template-columns:
+      1fr;
+  }
+
+
+  .admin-revenue-card {
+    align-items:
+      flex-start;
+
+    flex-direction:
+      column;
+  }
+
+
+  .admin-order-row,
+  .payment-verification-card {
+    grid-template-columns:
+      1fr;
+  }
+
+
+  .admin-fulfilment-progress {
+    grid-template-columns:
+      1fr
+      1fr;
+  }
+
+
+  .admin-modal-actions {
+    grid-template-columns:
+      1fr;
+  }
+
+
+  .admin-reject-modal {
+    padding: 18px;
+  }
+
+}
+
+
+/* =========================================================
+   DARK SCROLLBAR
+========================================================= */
+
+.admin-page,
+.admin-page * {
+  scrollbar-width: thin;
+
+  scrollbar-color:
+    rgba(32, 162, 143, 0.35)
+    transparent;
+}
+
+
+.admin-page::-webkit-scrollbar,
+.admin-page *::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+
+.admin-page::-webkit-scrollbar-track,
+.admin-page *::-webkit-scrollbar-track {
+  background:
+    transparent;
+}
+
+
+.admin-page::-webkit-scrollbar-thumb,
+.admin-page *::-webkit-scrollbar-thumb {
+  border-radius:
+    999px;
+
+  background:
+    rgba(32, 162, 143, 0.32);
+}
+
+
+.admin-page::-webkit-scrollbar-thumb:hover,
+.admin-page *::-webkit-scrollbar-thumb:hover {
+  background:
+    rgba(32, 162, 143, 0.5);
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (
+  prefers-reduced-motion:
+  reduce
+) {
+
+  .admin-page *,
+  .admin-page *::before,
+  .admin-page *::after {
+    animation-duration:
+      0.001ms !important;
+
+    animation-iteration-count:
+      1 !important;
+
+    transition-duration:
+      0.001ms !important;
+  }
+
+}
+/* =========================================================
+   PAYMENT METHOD
+========================================================= */
+
+.admin-payment-method-badge {
+  width: fit-content;
+
+  min-height: 30px;
+
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding:
+    0 11px;
+
+  border-radius: 999px;
+
+  font-size: 10px;
+
+  font-weight: 700;
+}
+
+
+.admin-payment-method-badge.bank {
+  border:
+    1px solid
+    rgba(32, 162, 143, 0.25);
+
+  background:
+    rgba(32, 162, 143, 0.08);
+
+  color:
+    #79cdbf;
+}
+
+
+.admin-payment-method-badge.cod {
+  border:
+    1px solid
+    rgba(214, 173, 66, 0.26);
+
+  background:
+    rgba(214, 173, 66, 0.08);
+
+  color:
+    #efcf75;
+}
+
+
+/* =========================================================
+   ADMIN PAYMENT CARD
+========================================================= */
+
+.admin-payment-details-card {
+  overflow: hidden;
+
+  margin-top: 16px;
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.1);
+
+  border-radius: 18px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(17, 23, 19, 0.94),
+      rgba(8, 12, 9, 0.98)
+    );
+}
+
+
+.admin-payment-details-card > header {
+  min-height: 72px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 15px;
+
+  padding:
+    15px 19px;
+
+  border-bottom:
+    1px solid
+    rgba(255, 255, 255, 0.08);
+}
+
+
+.admin-payment-details-card
+> header span {
+  display: block;
+
+  color: #79cdbf;
+
+  font-size: 9px;
+
+  font-weight: 700;
+
+  letter-spacing: 0.13em;
+}
+
+
+.admin-payment-details-card
+> header h2 {
+  margin:
+    4px 0 0;
+
+  color: #f7f4ed;
+
+  font-family:
+    "Playfair Display",
+    Georgia,
+    serif;
+
+  font-size: 23px;
+
+  font-weight: 400;
+}
+
+
+/* =========================================================
+   ADMIN COD
+========================================================= */
+
+.admin-cod-payment-panel {
+  display: grid;
+
+  grid-template-columns:
+    58px
+    minmax(0, 1fr);
+
+  gap: 16px;
+
+  margin: 19px;
+
+  padding: 18px;
+
+  border:
+    1px solid
+    rgba(214, 173, 66, 0.15);
+
+  border-radius: 15px;
+
+  background:
+    rgba(214, 173, 66, 0.035);
+}
+
+
+.admin-cod-payment-icon {
+  width: 58px;
+  height: 58px;
+
+  display: grid;
+
+  place-items: center;
+
+  border-radius: 14px;
+
+  background:
+    rgba(214, 173, 66, 0.08);
+
+  color: #efcf75;
+}
+
+
+.admin-cod-payment-icon svg {
+  width: 29px;
+  height: 29px;
+}
+
+
+.admin-cod-payment-panel span {
+  color: #efcf75;
+
+  font-size: 9px;
+
+  font-weight: 700;
+}
+
+
+.admin-cod-payment-panel h3 {
+  margin:
+    5px 0 0;
+
+  color: #f7f4ed;
+
+  font-family:
+    "Playfair Display",
+    Georgia,
+    serif;
+
+  font-size: 23px;
+
+  font-weight: 400;
+}
+
+
+.admin-cod-payment-panel p {
+  max-width: 470px;
+
+  margin:
+    9px 0 0;
+
+  color: #8b928d;
+
+  font-size: 12px;
+
+  line-height: 1.7;
+}
+
+
+.admin-cod-payment-total {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 20px;
+
+  margin:
+    0 19px
+    19px;
+
+  padding:
+    16px;
+
+  border-top:
+    1px solid
+    rgba(255, 255, 255, 0.08);
+}
+
+
+.admin-cod-payment-total span {
+  color: #8b928d;
+
+  font-size: 11px;
+}
+
+
+.admin-cod-payment-total strong {
+  color: #efcf75;
+
+  font-family:
+    "Playfair Display",
+    Georgia,
+    serif;
+
+  font-size: 24px;
+
+  font-weight: 400;
+}
+
+
+/* =========================================================
+   BANK ADMIN
+========================================================= */
+
+.admin-bank-payment-meta {
+  display: grid;
+
+  grid-template-columns:
+    1fr
+    1fr;
+
+  margin: 19px;
+
+  overflow: hidden;
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.08);
+
+  border-radius: 14px;
+}
+
+
+.admin-bank-payment-meta > div {
+  padding: 15px;
+}
+
+
+.admin-bank-payment-meta
+> div:nth-child(even) {
+  border-left:
+    1px solid
+    rgba(255, 255, 255, 0.07);
+}
+
+
+.admin-bank-payment-meta
+> div:nth-child(n + 3) {
+  border-top:
+    1px solid
+    rgba(255, 255, 255, 0.07);
+}
+
+
+.admin-bank-payment-meta span {
+  display: block;
+
+  color: #777e79;
+
+  font-size: 9px;
+}
+
+
+.admin-bank-payment-meta strong {
+  display: block;
+
+  margin-top: 5px;
+
+  color: #f7f4ed;
+
+  font-size: 12px;
+
+  overflow-wrap: anywhere;
+}
+
+
+/* =========================================================
+   RECEIPT
+========================================================= */
+
+.admin-payment-receipt {
+  margin: 19px;
+}
+
+
+.admin-payment-receipt > span {
+  display: block;
+
+  margin-bottom: 9px;
+
+  color: #79cdbf;
+
+  font-size: 9px;
+
+  font-weight: 700;
+}
+
+
+.admin-payment-receipt a {
+  display: block;
+
+  overflow: hidden;
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.1);
+
+  border-radius: 15px;
+
+  background: #080b09;
+}
+
+
+.admin-payment-receipt img {
+  width: 100%;
+
+  max-height: 520px;
+
+  padding: 10px;
+
+  object-fit: contain;
+}
+
+
+.admin-no-payment-receipt {
+  margin: 19px;
+
+  padding: 30px;
+
+  border:
+    1px dashed
+    rgba(255, 255, 255, 0.12);
+
+  border-radius: 14px;
+
+  color: #777e79;
+
+  font-size: 12px;
+
+  text-align: center;
+}
+
+
+/* =========================================================
+   BANK ACTIONS
+========================================================= */
+
+.admin-bank-actions {
+  display: grid;
+
+  grid-template-columns:
+    1fr
+    1fr;
+
+  gap: 9px;
+
+  margin: 19px;
+}
+
+
+.admin-bank-actions button {
+  min-height: 49px;
+
+  border-radius: 12px;
+
+  font-size: 12px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+
+.admin-bank-reject {
+  border:
+    1px solid
+    rgba(231, 121, 121, 0.38);
+
+  background:
+    rgba(231, 121, 121, 0.06);
+
+  color: #ef9999;
+}
+
+
+.admin-bank-approve {
+  border:
+    1px solid
+    rgba(32, 162, 143, 0.4);
+
+  background:
+    linear-gradient(
+      135deg,
+      #25b29d,
+      #168778 60%,
+      #116b60
+    );
+
+  color: #ffffff;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+  .admin-cod-payment-panel {
+    grid-template-columns:
+      1fr;
+  }
+
+
+  .admin-bank-payment-meta {
+    grid-template-columns:
+      1fr;
+  }
+
+
+  .admin-bank-payment-meta
+  > div:nth-child(even) {
+    border-left: 0;
+  }
+
+
+  .admin-bank-payment-meta
+  > div + div {
+    border-top:
+      1px solid
+      rgba(255, 255, 255, 0.07);
+  }
+
+
+  .admin-bank-actions {
+    grid-template-columns:
+      1fr;
+  }
+
+}
+/* =========================================================
+   COD + BANK ADMIN POLISH
+========================================================= */
+
+.admin-payment-method-badge {
+  width: fit-content;
+
+  min-height: 30px;
+
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding: 0 11px;
+
+  border-radius: 999px;
+
+  font-size: 10px;
+
+  font-weight: 700;
+
+  white-space: nowrap;
+}
+
+
+.admin-payment-method-badge.cod {
+  border:
+    1px solid
+    rgba(214, 173, 66, 0.3);
+
+  background:
+    rgba(214, 173, 66, 0.09);
+
+  color:
+    #efcf75;
+}
+
+
+.admin-payment-method-badge.bank {
+  border:
+    1px solid
+    rgba(32, 162, 143, 0.3);
+
+  background:
+    rgba(32, 162, 143, 0.09);
+
+  color:
+    #79cdbf;
+}
+
+
+/* =========================================================
+   ORDER STATUS BADGE
+========================================================= */
+
+.admin-order-status {
+  width: fit-content;
+
+  display: inline-flex;
+
+  align-items: center;
+
+  padding:
+    6px 10px;
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.1);
+
+  border-radius: 999px;
+
+  color:
+    #c8cbc6;
+
+  font-size: 10px !important;
+}
+
+
+.admin-order-status.payment {
+  border-color:
+    rgba(214, 173, 66, 0.25);
+
+  background:
+    rgba(214, 173, 66, 0.07);
+
+  color:
+    #efcf75;
+}
+
+
+.admin-order-status.confirmed,
+.admin-order-status.processing,
+.admin-order-status.packed,
+.admin-order-status.shipped {
+  border-color:
+    rgba(32, 162, 143, 0.24);
+
+  background:
+    rgba(32, 162, 143, 0.07);
+
+  color:
+    #79cdbf;
+}
+
+
+.admin-order-status.delivered {
+  border-color:
+    rgba(109, 204, 157, 0.25);
+
+  background:
+    rgba(109, 204, 157, 0.08);
+
+  color:
+    #8addb7;
+}
+
+
+.admin-order-status.cancelled {
+  border-color:
+    rgba(231, 121, 121, 0.25);
+
+  background:
+    rgba(231, 121, 121, 0.08);
+
+  color:
+    #ef9b9b;
+}
+
+
+/* =========================================================
+   PAYMENT DETAILS CARD
+========================================================= */
+
+.admin-payment-details-card {
+  overflow: hidden;
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.1);
+
+  border-radius: 18px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(17, 23, 19, 0.94),
+      rgba(8, 12, 9, 0.98)
+    );
+
+  box-shadow:
+    0 18px 45px
+    rgba(0, 0, 0, 0.17);
+}
+
+
+.admin-payment-details-card > header {
+  min-height: 72px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 16px;
+
+  padding: 17px 20px;
+
+  border-bottom:
+    1px solid
+    rgba(255, 255, 255, 0.08);
+}
+
+
+.admin-payment-details-card
+> header span {
+  display: block;
+
+  color: #79cdbf;
+
+  font-size: 9px;
+
+  font-weight: 700;
+
+  letter-spacing: 0.13em;
+}
+
+
+.admin-payment-details-card
+> header h2 {
+  margin: 5px 0 0;
+
+  color: #f7f4ed;
+
+  font-family:
+    "Playfair Display",
+    Georgia,
+    serif;
+
+  font-size: 23px;
+
+  font-weight: 400;
+}
+
+
+/* =========================================================
+   COD PAYMENT
+========================================================= */
+
+.admin-cod-payment-panel {
+  display: grid;
+
+  grid-template-columns:
+    58px
+    minmax(0, 1fr);
+
+  gap: 16px;
+
+  margin: 19px;
+
+  padding: 18px;
+
+  border:
+    1px solid
+    rgba(214, 173, 66, 0.16);
+
+  border-radius: 15px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(214, 173, 66, 0.07),
+      rgba(255, 255, 255, 0.01)
+    );
+}
+
+
+.admin-cod-payment-icon {
+  width: 58px;
+  height: 58px;
+
+  display: grid;
+
+  place-items: center;
+
+  border-radius: 14px;
+
+  background:
+    rgba(214, 173, 66, 0.09);
+
+  color:
+    #efcf75;
+}
+
+
+.admin-cod-payment-icon svg {
+  width: 29px;
+  height: 29px;
+}
+
+
+.admin-cod-payment-panel span {
+  color:
+    #efcf75;
+
+  font-size: 9px;
+
+  font-weight: 700;
+
+  letter-spacing:
+    0.1em;
+}
+
+
+.admin-cod-payment-panel h3 {
+  margin:
+    5px 0 0;
+
+  color:
+    #f7f4ed;
+
+  font-family:
+    "Playfair Display",
+    Georgia,
+    serif;
+
+  font-size: 23px;
+
+  font-weight: 400;
+}
+
+
+.admin-cod-payment-panel p {
+  max-width: 490px;
+
+  margin:
+    9px 0 0;
+
+  color:
+    #8b928d;
+
+  font-size: 12px;
+
+  line-height: 1.7;
+}
+
+
+.admin-cod-payment-total {
+  display: grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  gap: 10px;
+
+  margin:
+    0 19px
+    15px;
+}
+
+
+.admin-cod-payment-total > div {
+  padding: 15px;
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.08);
+
+  border-radius: 13px;
+
+  background:
+    rgba(255, 255, 255, 0.018);
+}
+
+
+.admin-cod-payment-total span {
+  display: block;
+
+  color:
+    #777e79;
+
+  font-size: 10px;
+}
+
+
+.admin-cod-payment-total strong {
+  display: block;
+
+  margin-top: 6px;
+
+  color:
+    #efcf75;
+
+  font-family:
+    "Playfair Display",
+    Georgia,
+    serif;
+
+  font-size: 21px;
+
+  font-weight: 400;
+}
+
+
+.admin-cod-actions {
+  margin:
+    0 19px
+    19px;
+}
+
+
+.admin-cod-actions button {
+  width: 100%;
+
+  min-height: 49px;
+
+  border:
+    1px solid
+    rgba(214, 173, 66, 0.3);
+
+  border-radius: 12px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #d6ad42,
+      #ad8527
+    );
+
+  color:
+    #080b09;
+
+  font-size: 12px;
+
+  font-weight: 800;
+
+  cursor: pointer;
+}
+
+
+/* =========================================================
+   BANK DETAILS
+========================================================= */
+
+.admin-bank-payment-meta {
+  display: grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  margin: 19px;
+
+  overflow: hidden;
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.08);
+
+  border-radius: 14px;
+}
+
+
+.admin-bank-payment-meta > div {
+  padding: 15px;
+}
+
+
+.admin-bank-payment-meta
+> div:nth-child(even) {
+  border-left:
+    1px solid
+    rgba(255, 255, 255, 0.07);
+}
+
+
+.admin-bank-payment-meta
+> div:nth-child(n + 3) {
+  border-top:
+    1px solid
+    rgba(255, 255, 255, 0.07);
+}
+
+
+.admin-bank-payment-meta span {
+  color:
+    #777e79;
+
+  font-size: 9px;
+}
+
+
+.admin-bank-payment-meta strong {
+  display: block;
+
+  margin-top: 5px;
+
+  color:
+    #f7f4ed;
+
+  font-size: 12px;
+
+  overflow-wrap: anywhere;
+}
+
+
+/* =========================================================
+   RECEIPT
+========================================================= */
+
+.admin-payment-receipt {
+  margin: 19px;
+}
+
+
+.admin-payment-receipt > span {
+  display: block;
+
+  margin-bottom: 9px;
+
+  color:
+    #79cdbf;
+
+  font-size: 9px;
+
+  font-weight: 700;
+}
+
+
+.admin-payment-receipt a {
+  display: block;
+
+  overflow: hidden;
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.1);
+
+  border-radius: 15px;
+
+  background:
+    #080b09;
+}
+
+
+.admin-payment-receipt img {
+  width: 100%;
+
+  max-height: 520px;
+
+  padding: 10px;
+
+  object-fit: contain;
+}
+
+
+.admin-no-payment-receipt {
+  margin: 19px;
+
+  padding: 30px;
+
+  border:
+    1px dashed
+    rgba(255, 255, 255, 0.12);
+
+  border-radius: 14px;
+
+  color:
+    #777e79;
+
+  font-size: 12px;
+
+  text-align: center;
+}
+
+
+/* =========================================================
+   BANK ACTIONS
+========================================================= */
+
+.admin-bank-actions {
+  display: grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  gap: 9px;
+
+  margin: 19px;
+}
+
+
+.admin-bank-actions button {
+  min-height: 49px;
+
+  border-radius: 12px;
+
+  font-size: 12px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+
+.admin-bank-reject {
+  border:
+    1px solid
+    rgba(231, 121, 121, 0.38);
+
+  background:
+    rgba(231, 121, 121, 0.06);
+
+  color:
+    #ef9999;
+}
+
+
+.admin-bank-approve {
+  border:
+    1px solid
+    rgba(32, 162, 143, 0.4);
+
+  background:
+    linear-gradient(
+      135deg,
+      #25b29d,
+      #168778 60%,
+      #116b60
+    );
+
+  color:
+    #ffffff;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+  .admin-cod-payment-panel {
+    grid-template-columns:
+      1fr;
+  }
+
+
+  .admin-cod-payment-total {
+    grid-template-columns:
+      1fr;
+  }
+
+
+  .admin-bank-payment-meta {
+    grid-template-columns:
+      1fr;
+  }
+
+
+  .admin-bank-payment-meta
+  > div:nth-child(even) {
+    border-left: 0;
+  }
+
+
+  .admin-bank-payment-meta
+  > div + div {
+    border-top:
+      1px solid
+      rgba(255, 255, 255, 0.07);
+  }
+
+
+  .admin-bank-actions {
+    grid-template-columns:
+      1fr;
+  }
+
+}

@@ -1,0 +1,55 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function userDoc() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid));
+    }
+
+    function isAdmin() {
+      return signedIn() && userDoc().data.role == "admin" && userDoc().data.status == "active";
+    }
+
+    function isOwner(uid) {
+      return signedIn() && request.auth.uid == uid;
+    }
+
+    match /users/{uid} {
+      allow read: if isOwner(uid) || isAdmin();
+
+      allow create: if isOwner(uid)
+        && request.resource.data.role == "customer"
+        && request.resource.data.status == "active";
+
+      allow update: if isAdmin() || (
+        isOwner(uid)
+        && request.resource.data.role == resource.data.role
+        && request.resource.data.status == resource.data.status
+      );
+
+      allow delete: if isAdmin();
+
+      match /addresses/{addressId} {
+        allow read, create, update, delete: if isOwner(uid) || isAdmin();
+      }
+    }
+
+    match /orders/{orderId} {
+      allow read: if signedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+
+      allow create: if signedIn()
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.status == "PAYMENT_VERIFICATION"
+        && request.resource.data.payment.status == "PAYMENT_SUBMITTED";
+
+      allow update, delete: if isAdmin();
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
