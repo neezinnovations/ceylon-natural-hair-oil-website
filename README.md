@@ -45,16 +45,6 @@ Create Firestore document:
 
 `users/{ADMIN_UID}`
 
-Example fields:
-
-```text
-name: Administrator
-email: admin@example.com
-phone: 0710000000
-role: admin
-status: active
-defaultAddressId: null
-```
 
 The Firestore document ID **must exactly match** the Firebase Authentication UID.
 
