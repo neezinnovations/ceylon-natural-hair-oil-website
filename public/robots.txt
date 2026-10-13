@@ -8,3 +8,4 @@ Disallow: /register
 Disallow: /checkout
 
 Sitemap: https://ceyloneherbalhair.com/sitemap.xml
+Sitemap: https://ceyloneherbalhair.netlify.app/sitemap.xml
