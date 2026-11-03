@@ -7,5 +7,5 @@ Disallow: /login
 Disallow: /register
 Disallow: /checkout
 
-Sitemap: https://ceyloneherbalhair.com/sitemap.xml
-Sitemap: https://ceyloneherbalhair.netlify.app/sitemap.xml
+Sitemap: https://ceylonherbalhair.com/sitemap.xml
+Sitemap: https://ceylonherbalhair.netlify.app/sitemap.xml
