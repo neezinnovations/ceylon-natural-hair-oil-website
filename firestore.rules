@@ -1,55 +1,113 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    function signedIn() {
-      return request.auth != null;
-    }
-
+    function signedIn() { return request.auth != null; }
     function userDoc() {
       return get(/databases/$(database)/documents/users/$(request.auth.uid));
     }
-
-    function isAdmin() {
-      return signedIn() && userDoc().data.role == "admin" && userDoc().data.status == "active";
+    function activeUser() { return signedIn() && userDoc().data.status == "active"; }
+    function isAdmin() { return activeUser() && userDoc().data.role == "admin"; }
+    function isOwner(uid) { return signedIn() && request.auth.uid == uid; }
+    function text(value, maximum) { return value is string && value.size() <= maximum; }
+    function requiredText(value, maximum) { return text(value, maximum) && value.size() > 0; }
+    function validProfile(data) {
+      return requiredText(data.name, 120) && requiredText(data.phone, 30)
+        && (data.defaultAddressId == null || text(data.defaultAddressId, 128));
     }
-
-    function isOwner(uid) {
-      return signedIn() && request.auth.uid == uid;
+    function validAddress(data) {
+      return requiredText(data.fullName, 120) && requiredText(data.phone, 30)
+        && requiredText(data.addressLine1, 300) && text(data.addressLine2, 300)
+        && requiredText(data.city, 100) && requiredText(data.district, 100)
+        && text(data.postalCode, 20) && requiredText(data.label, 80);
+    }
+    function validPayment(data) {
+      let p = data.payment;
+      return p.keys().hasOnly(['method', 'status', 'receiptUrl', 'transactionReference',
+          'amountPaid', 'amountDue', 'rejectionReason', 'verifiedBy', 'rejectedBy'])
+        && p.method == data.paymentMethod
+        && p.verifiedBy == '' && p.rejectedBy == '' && p.rejectionReason == ''
+        && text(p.transactionReference, 120)
+        && ((data.paymentMethod == 'CASH_ON_DELIVERY'
+          && data.status == 'CONFIRMED' && p.status == 'PAYMENT_PENDING'
+          && p.amountPaid == 0 && p.amountDue == data.total
+          && p.receiptUrl == '' && p.transactionReference == '')
+        || (data.paymentMethod == 'BANK_TRANSFER'
+          && data.status == 'PAYMENT_VERIFICATION' && p.status == 'PAYMENT_SUBMITTED'
+          && p.amountPaid == data.total && p.amountDue == 0
+          && text(p.receiptUrl, 2048)
+          && p.receiptUrl.matches('https://res[.]cloudinary[.]com/[^/]+/image/upload/.*')));
+    }
+    function validOrder(data) {
+      // This store has one fixed product. Update these trusted values when the catalog changes.
+      let item = data.items[0];
+      return data.keys().hasOnly(['orderNumber', 'userId', 'customer', 'shippingAddress', 'items',
+          'subtotal', 'deliveryFee', 'total', 'currency', 'paymentMethod', 'payment',
+          'status', 'statusNote', 'createdAt', 'updatedAt'])
+        && data.items is list && data.items.size() == 1
+        && item.keys().hasOnly(['productId', 'name', 'size', 'price', 'quantity', 'lineTotal', 'imageUrl'])
+        && item.productId == 'laceylon-herbal-hair-oil'
+        && item.name == 'LACeylon Herbal Hair Oil' && item.size == '50ml'
+        && item.imageUrl == '/images/hair_oil_bottle.webp' && item.price == 1800
+        && item.quantity is int && item.quantity >= 1 && item.quantity <= 99
+        && item.lineTotal == item.price * item.quantity
+        && data.subtotal == item.lineTotal && data.deliveryFee == 0
+        && data.total == data.subtotal && data.currency == 'LKR'
+        && data.customer.keys().hasOnly(['uid', 'email', 'name', 'phone'])
+        && data.customer.uid == request.auth.uid && data.customer.email == request.auth.token.email
+        && text(data.customer.name, 120) && text(data.customer.phone, 30)
+        && data.shippingAddress.keys().hasOnly(['id', 'label', 'fullName', 'phone',
+          'addressLine1', 'addressLine2', 'city', 'district', 'postalCode'])
+        && validAddress(data.shippingAddress) && text(data.shippingAddress.id, 128)
+        && requiredText(data.orderNumber, 50) && text(data.statusNote, 300)
+        && data.createdAt == request.time && data.updatedAt == request.time
+        && validPayment(data);
     }
 
     match /users/{uid} {
       allow read: if isOwner(uid) || isAdmin();
-
       allow create: if isOwner(uid)
-        && request.resource.data.role == "customer"
-        && request.resource.data.status == "active";
-
-      allow update: if isAdmin() || (
-        isOwner(uid)
-        && request.resource.data.role == resource.data.role
-        && request.resource.data.status == resource.data.status
-      );
-
+        && request.resource.data.keys().hasOnly(['uid', 'name', 'email', 'phone', 'role', 'status',
+          'defaultAddressId', 'createdAt', 'updatedAt'])
+        && request.resource.data.uid == uid
+        && request.resource.data.email == request.auth.token.email
+        && request.resource.data.role == 'customer' && request.resource.data.status == 'active'
+        && request.resource.data.defaultAddressId == null && validProfile(request.resource.data)
+        && request.resource.data.createdAt == request.time && request.resource.data.updatedAt == request.time;
+      allow update: if isAdmin() || (isOwner(uid) && activeUser()
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['name', 'phone', 'defaultAddressId', 'updatedAt'])
+        && validProfile(request.resource.data) && request.resource.data.updatedAt == request.time
+        && (request.resource.data.defaultAddressId == null
+          || exists(/databases/$(database)/documents/users/$(uid)/addresses/$(request.resource.data.defaultAddressId))));
       allow delete: if isAdmin();
 
       match /addresses/{addressId} {
-        allow read, create, update, delete: if isOwner(uid) || isAdmin();
+        allow read, delete: if (isOwner(uid) && activeUser()) || isAdmin();
+        allow create: if ((isOwner(uid) && activeUser()) || isAdmin())
+          && request.resource.data.keys().hasOnly(['label', 'fullName', 'phone', 'phone2',
+            'addressLine1', 'addressLine2', 'city', 'district', 'postalCode', 'createdAt', 'updatedAt'])
+          && validAddress(request.resource.data) && text(request.resource.data.phone2, 30)
+          && request.resource.data.updatedAt == request.time
+          && request.resource.data.createdAt == request.time;
+        allow update: if ((isOwner(uid) && activeUser()) || isAdmin())
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['label', 'fullName', 'phone', 'phone2',
+            'addressLine1', 'addressLine2', 'city', 'district', 'postalCode', 'updatedAt'])
+          && validAddress(request.resource.data) && text(request.resource.data.phone2, 30)
+          && request.resource.data.updatedAt == request.time;
       }
     }
-
     match /orders/{orderId} {
-      allow read: if signedIn() && (resource.data.userId == request.auth.uid || isAdmin());
-
-      allow create: if signedIn()
-        && request.resource.data.userId == request.auth.uid
-        && request.resource.data.status == "PAYMENT_VERIFICATION"
-        && request.resource.data.payment.status == "PAYMENT_SUBMITTED";
-
-      allow update, delete: if isAdmin();
+      allow read: if activeUser() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow create: if activeUser() && request.resource.data.userId == request.auth.uid
+        && validOrder(request.resource.data);
+      allow update: if isAdmin()
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['payment', 'status', 'statusNote', 'lastUpdatedBy', 'updatedAt'])
+        && request.resource.data.status in ['PAYMENT_VERIFICATION', 'CONFIRMED', 'PROCESSING', 'PACKED', 'SHIPPED', 'DELIVERED', 'CANCELLED']
+        && request.resource.data.payment.method == resource.data.payment.method
+        && request.resource.data.payment.receiptUrl == resource.data.payment.receiptUrl
+        && request.resource.data.payment.status in ['PAYMENT_PENDING', 'PAYMENT_SUBMITTED', 'PAYMENT_VERIFIED', 'PAYMENT_REJECTED']
+        && request.resource.data.updatedAt == request.time;
+      allow delete: if isAdmin();
     }
-
-    match /{document=**} {
-      allow read, write: if false;
-    }
+    match /{document=**} { allow read, write: if false; }
   }
 }

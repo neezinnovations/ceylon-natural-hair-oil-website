@@ -6,11 +6,18 @@ export default function AdminDashboard() {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const [error, setError] = useState("");
+  const [attempt, setAttempt] = useState(0);
   useEffect(() => {
+    let active = true;
+    setLoading(true);
+    setError("");
     getAdminOrders()
-      .then(setOrders)
-      .finally(() => setLoading(false));
-  }, []);
+      .then((rows) => { if (active) setOrders(rows); })
+      .catch(() => { if (active) setError("Unable to load dashboard orders. Please try again."); })
+      .finally(() => { if (active) setLoading(false); });
+    return () => { active = false; };
+  }, [attempt]);
 
   const stats = useMemo(
     () => ({
@@ -37,6 +44,10 @@ export default function AdminDashboard() {
   const pending = orders
     .filter((order) => order.payment?.status === "PAYMENT_SUBMITTED")
     .slice(0, 5);
+
+  if (error) return <div className="admin-alert admin-alert-error" role="alert">
+    {error} <button onClick={() => setAttempt((value) => value + 1)}>Try again</button>
+  </div>;
 
   return (
     <div className="admin-view">

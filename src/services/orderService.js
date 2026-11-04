@@ -1,3 +1,5 @@
+import { product } from "../data/siteData";
+import { safeReceiptUrl } from "../utils/errors";
 import {
   collection,
   doc,
@@ -52,50 +54,15 @@ function buildOrderNumber(
 function normalizeItems(
   items = []
 ) {
-  return items.map(
-    (item) => {
-      const price =
-        Number(
-          item.price || 0
-        );
-
-
-      const quantity =
-        Math.max(
-          1,
-          Number(
-            item.quantity || 1
-          )
-        );
-
-
-      return {
-        productId:
-          item.productId ||
-          "",
-
-        name:
-          item.name ||
-          "",
-
-        size:
-          item.size ||
-          "",
-
-        price,
-
-        quantity,
-
-        lineTotal:
-          price *
-          quantity,
-
-        imageUrl:
-          item.imageUrl ||
-          "",
-      };
-    }
-  );
+  if (!Array.isArray(items) || items.length !== 1 || items[0]?.productId !== product.productId) {
+    throw new Error("Please update your cart before ordering.");
+  }
+  const quantity = items[0].quantity;
+  if (!Number.isInteger(quantity) || quantity < 1 || quantity > 99) {
+    throw new Error("Please choose a quantity between 1 and 99.");
+  }
+  return [{ productId: product.productId, name: product.name, size: product.size,
+    price: product.price, quantity, lineTotal: product.price * quantity, imageUrl: product.imageUrl }];
 }
 
 
@@ -256,7 +223,7 @@ export async function createBankTransferOrder({
   }
 
 
-  if (!receiptUrl) {
+  if (!safeReceiptUrl(receiptUrl)) {
     throw new Error(
       "Payment receipt is required."
     );
@@ -348,10 +315,7 @@ export async function createBankTransferOrder({
           "",
 
         amountPaid:
-          Number(
-            amountPaid ??
-            total
-          ),
+          total,
 
         amountDue:
           0,
@@ -512,10 +476,7 @@ export async function createCashOnDeliveryOrder({
           0,
 
         amountDue:
-          Number(
-            amountDue ??
-            total
-          ),
+          total,
 
         rejectionReason:
           "",
@@ -676,6 +637,7 @@ export async function getCustomerOrder(
       snapshot.id,
 
     ...data,
+    payment: { ...data.payment, receiptUrl: safeReceiptUrl(data.payment?.receiptUrl) },
   };
 }
 
@@ -763,6 +725,7 @@ export async function getAdminOrder(
       snapshot.id,
 
     ...snapshot.data(),
+    payment: { ...snapshot.data().payment, receiptUrl: safeReceiptUrl(snapshot.data().payment?.receiptUrl) },
   };
 }
 

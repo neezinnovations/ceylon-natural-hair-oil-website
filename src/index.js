@@ -1,4 +1,5 @@
 import React from "react";
+import ErrorBoundary from "./components/ErrorBoundary";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import AppRouter from "./AppRouter";
@@ -10,6 +11,7 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
   <React.StrictMode>
+    <ErrorBoundary>
     <BrowserRouter>
       <AuthProvider>
         <CartProvider>
@@ -17,5 +19,6 @@ root.render(
         </CartProvider>
       </AuthProvider>
     </BrowserRouter>
+    </ErrorBoundary>
   </React.StrictMode>
 );

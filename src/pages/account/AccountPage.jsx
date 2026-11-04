@@ -231,6 +231,8 @@ export default function AccountPage() {
   } = useAuth();
 
 
+  const [logoutError, setLogoutError] = useState("");
+
   const navigate =
     useNavigate();
 
@@ -326,6 +328,7 @@ export default function AccountPage() {
 
       try {
         setLoggingOut(true);
+        setLogoutError("");
 
         setMobileMenuOpen(
           false
@@ -343,10 +346,7 @@ export default function AccountPage() {
         );
 
       } catch (error) {
-        console.error(
-          "Logout error:",
-          error
-        );
+        setLogoutError("Unable to sign out. Please check your connection and try again.");
 
       } finally {
         setLoggingOut(false);
@@ -358,6 +358,7 @@ export default function AccountPage() {
     <main className="account-page">
 
       <div className="account-shell">
+        {logoutError && <div className="account-error" role="alert">{logoutError}</div>}
 
         {/* =================================================
             DESKTOP SIDEBAR

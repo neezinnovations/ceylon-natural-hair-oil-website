@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useRef, useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebase/firebase";
 import { getUserProfile, logoutUser } from "../services/authService";
@@ -9,32 +9,44 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const currentUid = useRef(null);
+  const profileRequest = useRef(0);
 
   async function loadProfile(firebaseUser) {
+    const requestId = ++profileRequest.current;
     if (!firebaseUser) {
       setProfile(null);
       return null;
     }
     const data = await getUserProfile(firebaseUser.uid);
-    setProfile(data);
+    if (currentUid.current === firebaseUser.uid && profileRequest.current === requestId) setProfile(data);
     return data;
   }
 
   async function refreshProfile() {
-    if (!user) return null;
-    return loadProfile(user);
+    if (!auth.currentUser) return null;
+    const data = await loadProfile(auth.currentUser);
+    setError("");
+    return data;
   }
 
   async function logout() {
     await logoutUser();
+    currentUid.current = null;
+    profileRequest.current += 1;
     setUser(null);
     setProfile(null);
   }
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+      const uid = firebaseUser?.uid || null;
       try {
         setLoading(true);
+        setError("");
+        currentUid.current = firebaseUser?.uid || null;
+        setProfile(null);
         setUser(firebaseUser || null);
         if (firebaseUser) {
           await loadProfile(firebaseUser);
@@ -42,13 +54,15 @@ export function AuthProvider({ children }) {
           setProfile(null);
         }
       } catch (error) {
-        console.error("Auth profile load failed:", error);
-        setProfile(null);
+        if (currentUid.current === uid) {
+          setError("Unable to load your account. Please reload to try again.");
+          setProfile(null);
+        }
       } finally {
-        setLoading(false);
+        if (currentUid.current === uid) setLoading(false);
       }
     });
-    return unsubscribe;
+    return () => { currentUid.current = null; unsubscribe(); };
   }, []);
 
   return (
@@ -57,10 +71,11 @@ export function AuthProvider({ children }) {
         user,
         profile,
         loading,
+        error,
         logout,
         refreshProfile,
-        isAuthenticated: Boolean(user),
-        isAdmin: profile?.role === "admin",
+        isAuthenticated: Boolean(user && profile?.status === "active"),
+        isAdmin: profile?.role === "admin" && profile?.status === "active",
         isCustomer: profile?.role === "customer",
       }}
     >

@@ -1,10 +1,13 @@
+import { useAuth } from "../../context/AuthContext";
+import { getErrorMessage } from "../../utils/errors";
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { getUserProfile, loginCustomer } from "../../services/authService";
+import { getUserProfile, loginCustomer, logoutUser } from "../../services/authService";
 import "./Auth.css";
 
 export default function LoginPage() {
   const navigate = useNavigate();
+  const { refreshProfile } = useAuth();
   const location = useLocation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -13,23 +16,27 @@ export default function LoginPage() {
 
   async function handleSubmit(event) {
     event.preventDefault();
+    if (loading) return;
     try {
       setLoading(true);
       setError("");
       const credential = await loginCustomer(email.trim(), password);
       const profile = await getUserProfile(credential.user.uid);
-      if (!profile) throw new Error("No Firestore profile was found for this account.");
-      if (profile.status !== "active") throw new Error("This account is not active.");
+      if (!profile || profile.status !== "active") {
+        await logoutUser();
+        throw new Error("Account unavailable.");
+      }
 
+      await refreshProfile();
       if (profile.role === "admin") {
         navigate("/admin", { replace: true });
         return;
       }
 
       const requested = location.state?.from;
-      navigate(requested && !requested.startsWith("/admin") ? requested : "/account", { replace: true });
+      navigate(typeof requested === "string" && /^\/account(?:\/|\?|$)|^\/checkout(?:\?|$)/.test(requested) && !requested.includes("\\") ? requested : "/account", { replace: true });
     } catch (err) {
-      setError(err.message || "Unable to sign in.");
+      setError(getErrorMessage(err, "Unable to sign in."));
     } finally {
       setLoading(false);
     }

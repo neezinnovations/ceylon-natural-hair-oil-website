@@ -1,3 +1,5 @@
+import { useAuth } from "../../context/AuthContext";
+import { getErrorMessage } from "../../utils/errors";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { registerCustomer } from "../../services/authService";
@@ -5,6 +7,7 @@ import "./Auth.css";
 
 export default function RegisterPage() {
   const navigate = useNavigate();
+  const { refreshProfile } = useAuth();
   const [form, setForm] = useState({ name: "", phone: "", email: "", password: "" });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -15,13 +18,15 @@ export default function RegisterPage() {
 
   async function submit(event) {
     event.preventDefault();
+    if (loading) return;
     try {
       setLoading(true);
       setError("");
       await registerCustomer(form);
+      await refreshProfile();
       navigate("/account", { replace: true });
     } catch (err) {
-      setError(err.message || "Unable to create account.");
+      setError(getErrorMessage(err, "Unable to create account."));
     } finally {
       setLoading(false);
     }

@@ -1,3 +1,5 @@
+import { safeReceiptUrl } from "../utils/errors";
+
 const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp"];
 const MAX_SIZE = 5 * 1024 * 1024;
 
@@ -21,18 +23,27 @@ export async function uploadReceipt(file) {
   form.append("file", file);
   form.append("upload_preset", uploadPreset);
 
-  const response = await fetch(
-    `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
-    { method: "POST", body: form }
-  );
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 30000);
+  try {
+    const response = await fetch(
+      `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+      { method: "POST", body: form, signal: controller.signal }
+    );
 
-  const data = await response.json();
-  if (!response.ok || !data.secure_url) {
-    throw new Error(data?.error?.message || "Receipt upload failed.");
+    const data = await response.json().catch(() => null);
+    if (!response.ok || !safeReceiptUrl(data?.secure_url)) {
+      throw new Error("Receipt upload failed. Please try again.");
+    }
+
+    return {
+      secureUrl: data.secure_url,
+      publicId: data.public_id,
+    };
+  } catch (error) {
+    if (error.name === "AbortError") throw new Error("Receipt upload timed out. Please try again.");
+    throw new Error("Unable to upload the receipt. Check your connection and try again.");
+  } finally {
+    clearTimeout(timeout);
   }
-
-  return {
-    secureUrl: data.secure_url,
-    publicId: data.public_id,
-  };
 }

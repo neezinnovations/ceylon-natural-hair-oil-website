@@ -78,6 +78,10 @@ Open:
 
 ## Important production note
 
+See [SECURITY.md](SECURITY.md) for the security changes, required Firebase/Cloudinary
+configuration, and pre-deployment verification. Local rule changes must be tested and
+published to Firebase before they protect the live database.
+
 This starter creates order totals in the browser because there is no backend server. For a production store, move trusted price validation, payment-state transitions, and any sensitive receipt access into a secure backend / Cloud Function.
 
 ## Storefront sections included

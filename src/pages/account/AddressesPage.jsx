@@ -1,3 +1,4 @@
+import { getErrorMessage } from "../../utils/errors";
 import { useCallback, useEffect, useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import {
@@ -28,6 +29,8 @@ export default function AddressesPage() {
   const [form, setForm] = useState(EMPTY);
   const [error, setError] = useState("");
 
+  const [busy, setBusy] = useState(false);
+
   const load = useCallback(async () => {
     if (user?.uid) {
       setAddresses(await getAddresses(user.uid));
@@ -35,7 +38,7 @@ export default function AddressesPage() {
   }, [user]);
 
   useEffect(() => {
-    load().catch(console.error);
+    load().catch((err) => setError(getErrorMessage(err, "Unable to load addresses. Please reload to try again.")));
   }, [load]);
 
   function openNew() {
@@ -50,6 +53,8 @@ export default function AddressesPage() {
 
   async function save(event) {
     event.preventDefault();
+    if (busy) return;
+    setBusy(true);
 
     try {
       setError("");
@@ -63,7 +68,9 @@ export default function AddressesPage() {
       setEditing(null);
       await load();
     } catch (err) {
-      setError(err.message || "Unable to save address.");
+      setError(getErrorMessage(err, "Unable to save address. Please try again."));
+    } finally {
+      setBusy(false);
     }
   }
 
@@ -72,19 +79,35 @@ export default function AddressesPage() {
       return;
     }
 
-    await deleteAddress(user.uid, id);
-
-    if (profile?.defaultAddressId === id) {
-      await setDefaultAddress(user.uid, null);
-      await refreshProfile();
+    if (busy) return;
+    setBusy(true);
+    setError("");
+    try {
+      if (profile?.defaultAddressId === id) {
+        await setDefaultAddress(user.uid, null);
+        await refreshProfile();
+      }
+      await deleteAddress(user.uid, id);
+      await load();
+    } catch (err) {
+      setError(getErrorMessage(err, "Unable to delete the address. Please reload and try again."));
+    } finally {
+      setBusy(false);
     }
-
-    await load();
   }
 
   async function makeDefault(id) {
-    await setDefaultAddress(user.uid, id);
-    await refreshProfile();
+    if (busy) return;
+    setBusy(true);
+    setError("");
+    try {
+      await setDefaultAddress(user.uid, id);
+      await refreshProfile();
+    } catch (err) {
+      setError(getErrorMessage(err, "Unable to change the default address. Please try again."));
+    } finally {
+      setBusy(false);
+    }
   }
 
   const fields = {
@@ -115,7 +138,7 @@ export default function AddressesPage() {
           <h1>Saved addresses.</h1>
         </div>
 
-        <button onClick={openNew}>+ Add address</button>
+        <button disabled={busy} onClick={openNew}>+ Add address</button>
       </div>
 
       {error && <div className="account-error">{error}</div>}
@@ -144,17 +167,17 @@ export default function AddressesPage() {
             </p>
 
             <div>
-              <button onClick={() => openEdit(address)}>
+              <button disabled={busy} onClick={() => openEdit(address)}>
                 Edit
               </button>
 
               {profile?.defaultAddressId !== address.id && (
-                <button onClick={() => makeDefault(address.id)}>
+                <button disabled={busy} onClick={() => makeDefault(address.id)}>
                   Make default
                 </button>
               )}
 
-              <button onClick={() => remove(address.id)}>
+              <button disabled={busy} onClick={() => remove(address.id)}>
                 Delete
               </button>
             </div>
@@ -172,7 +195,7 @@ export default function AddressesPage() {
                   : "Edit address"}
               </h2>
 
-              <button onClick={() => setEditing(null)}>
+              <button disabled={busy} onClick={() => setEditing(null)}>
                 ×
               </button>
             </header>
@@ -195,7 +218,7 @@ export default function AddressesPage() {
                 </label>
               ))}
 
-              <button>Save address</button>
+              <button disabled={busy}>{busy ? "Saving..." : "Save address"}</button>
             </form>
           </div>
         </div>

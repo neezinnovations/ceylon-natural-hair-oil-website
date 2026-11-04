@@ -236,6 +236,8 @@ export default function AdminPage() {
   } = useAuth();
 
 
+  const [logoutError, setLogoutError] = useState("");
+
   const navigate =
     useNavigate();
 
@@ -325,6 +327,7 @@ export default function AdminPage() {
 
       try {
         setLoggingOut(true);
+        setLogoutError("");
 
         setMenuOpen(false);
 
@@ -340,10 +343,7 @@ export default function AdminPage() {
         );
 
       } catch (error) {
-        console.error(
-          "Admin logout error:",
-          error
-        );
+        setLogoutError("Unable to sign out. Please check your connection and try again.");
 
       } finally {
         setLoggingOut(false);
@@ -355,6 +355,7 @@ export default function AdminPage() {
     <main className="admin-page">
 
       <div className="admin-shell">
+        {logoutError && <div className="admin-alert admin-alert-error" role="alert">{logoutError}</div>}
 
         {/* =================================================
             DESKTOP SIDEBAR

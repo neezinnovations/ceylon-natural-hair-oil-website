@@ -1,5 +1,6 @@
 import {
   createUserWithEmailAndPassword,
+  deleteUser,
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signOut,
@@ -9,23 +10,41 @@ import { doc, getDoc, serverTimestamp, setDoc, updateDoc } from "firebase/firest
 import { auth, db } from "../firebase/firebase";
 
 export async function registerCustomer({ name, email, phone, password }) {
+  name = name.trim();
+  phone = phone.trim();
+  email = email.trim();
+  if (!name || name.length > 120 || !phone || phone.length > 30) {
+    throw new Error("Please enter a valid name and phone number.");
+  }
   const credential = await createUserWithEmailAndPassword(auth, email, password);
   const user = credential.user;
 
-  await updateProfile(user, { displayName: name.trim() });
+  try {
+    await updateProfile(user, { displayName: name.trim() });
 
-  await setDoc(doc(db, "users", user.uid), {
-    uid: user.uid,
-    name: name.trim(),
-    email: email.trim().toLowerCase(),
-    phone: phone.trim(),
-    role: "customer",
-    status: "active",
-    defaultAddressId: null,
-    createdAt: serverTimestamp(),
-    updatedAt: serverTimestamp(),
-  });
+    await setDoc(doc(db, "users", user.uid), {
+      uid: user.uid,
+      name: name.trim(),
+      email: user.email,
+      phone: phone.trim(),
+      role: "customer",
+      status: "active",
+      defaultAddressId: null,
+      createdAt: serverTimestamp(),
+      updatedAt: serverTimestamp(),
+    });
 
+  } catch (error) {
+    try {
+      await deleteUser(user);
+    } catch {
+      await signOut(auth).catch(() => {});
+      const failure = new Error("Account setup could not be completed.");
+      failure.code = "app/account-setup-incomplete";
+      throw failure;
+    }
+    throw error;
+  }
   return credential;
 }
 
